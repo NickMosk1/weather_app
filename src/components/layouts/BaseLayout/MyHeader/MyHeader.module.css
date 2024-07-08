@@ -1,0 +1,27 @@
+.myHeader {
+    background-color: #007bff;
+    color: #fff;
+    width: 100%;
+    height: 10%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.headerContainer{
+    margin-left: 15%;
+    margin-right: 15%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo{
+    color: #fff;
+    font-weight: 900;
+    font-size: 300%;
+}
+
+.themeBrightnessToggle{
+    color: #fff;
+    font-weight: 900;
+    font-size: 300%;
+}

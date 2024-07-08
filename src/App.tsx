@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import SingleDayPage from "./pages/SingleDayPage/SingleDayPage";
+import JournalPage from "./pages/JournalPage/JournalPage";
+import HomePage from "./pages/HomePage/HomePage";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/error" element={<ErrorPage />} />
+          <Route path="/singleday" element={<SingleDayPage />} />
+          <Route path="/journal" element={<JournalPage />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
-}
+};
 
 export default App;

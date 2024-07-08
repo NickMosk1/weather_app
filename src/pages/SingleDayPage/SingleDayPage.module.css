@@ -1,0 +1,42 @@
+.geographyDetails{
+    width: 70%;
+    height: fit-content;
+    margin: auto;
+    text-align: left;
+}
+
+.resolvedAddress{
+    color: #007bff;
+    font-weight: 700;
+    font-size: 200%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.weatherTodayQuote{
+    color: #333;
+    font-weight: 100;
+    font-size: 150%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+
+.byHourTempDetails{
+    width: 70%;
+    height: fit-content;
+    margin: auto;
+    text-align: center;
+}
+
+
+
+
+.sunRiseSunSetDetails{
+    width: 70%;
+    height: fit-content;
+    margin: auto;
+    text-align: center;
+}
