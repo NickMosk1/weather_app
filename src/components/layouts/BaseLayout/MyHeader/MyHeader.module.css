@@ -14,14 +14,14 @@
     justify-content: space-between;
 }
 
-.logo{
+.headerItem{
     color: #fff;
     font-weight: 900;
     font-size: 300%;
+    height: 10%;
 }
 
-.themeBrightnessToggle{
-    color: #fff;
-    font-weight: 900;
-    font-size: 300%;
+.routingButtonText{
+    text-decoration: none; 
+    color: inherit; 
 }

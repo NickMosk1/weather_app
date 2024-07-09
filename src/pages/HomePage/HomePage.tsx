@@ -1,10 +1,18 @@
+
+import HomePageContainer from './PreferencesContainer/HomePageContainer';
+
 const HomePage = () => {
+
   return (
-    <div>
-      <h1>Добро пожаловать на домашнюю страницу!</h1>
-      <p>Здесь вы можете разместить содержимое вашей домашней страницы.</p>
-    </div>
+
+    <>
+
+      <HomePageContainer/>
+
+    </>
+
   );
+
 };
 
 export default HomePage;

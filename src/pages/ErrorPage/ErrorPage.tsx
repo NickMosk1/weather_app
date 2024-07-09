@@ -1,14 +1,15 @@
-
+import ErrorContainer from "./ErrorContainer/ErrorContainer";
 
 const ErrorPage = () => {
 
   return (
 
-    <div>
-      
-      
-    </div>
+    <>  
 
+      <ErrorContainer/> 
+
+    </>    
+    
   );
 
 };

@@ -1,3 +1,5 @@
+import Clock from './Clock/Clock';
+
 import classes from './MyHeader.module.css'
 
 const MyHeader = () => {
@@ -8,15 +10,17 @@ const MyHeader = () => {
 
       <div className={classes.headerContainer}>
           
-          <div className={classes.logo}>
-              
+          <div className={classes.headerItem}>
+
             MyMeteo
 
           </div>
 
-          <div className={classes.themeBrightnessToggle}>
+          <Clock/>
+
+          <div className={classes.headerItem}>
               
-            b/d
+            Светлая
 
           </div>
             
