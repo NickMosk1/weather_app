@@ -1,4 +1,6 @@
-import React, { ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
+
+import { useNavigate } from 'react-router-dom'; 
 
 import classes from './SearchCityInput.module.css';
 
@@ -6,30 +8,56 @@ interface SearchCityInputProps {
 
   placeholder: string;
 
-//   value: string;
-
-//   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-
 }
 
-const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => (
+const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
 
-  <div>
+  const [cityName, setCityName] = useState('');
 
-    <input
+  const navigate = useNavigate(); 
 
-      type="text"
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 
-      name="searchCityInput"
+    setCityName(event.target.value);
 
-      placeholder={placeholder}
+  };
 
-      className={classes.searchCityInput}
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
 
-    />
+    if (event.key === 'Enter') {
 
-  </div>
+      navigate(`/city`); 
 
-);
+    }
+
+  };
+
+  return (
+
+    <div>
+
+      <input
+
+        type="text"
+
+        name="searchCityInput"
+
+        placeholder={placeholder}
+
+        className={classes.searchCityInput}
+
+        value={cityName}
+
+        onChange={handleInputChange}
+
+        onKeyDown={handleKeyDown}
+
+      />
+
+    </div>
+
+  );
+
+};
 
 export default SearchCityInput;

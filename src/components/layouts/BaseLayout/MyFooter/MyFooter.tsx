@@ -14,7 +14,7 @@ const MyFooter = () => {
         
       <div className={classes.MyMeteoInfo}>
 
-      ©MyMeteo
+        ©MyMeteo
 
       </div>
         

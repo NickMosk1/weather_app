@@ -1,29 +1,16 @@
 .searchCityInput {
-    
     color: #007bff;
-
     text-emphasis-color: #007bff;
-
     background-color: #fff;
-
     padding: 10px 15px;
-
     border: 1.7px solid #007bff; 
-
     border-radius: 10px;
-
     font-size: 120%;
-
     font-weight: 100;
-
     text-align: center;
-
     box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-
     cursor: pointer;
-    
     transition: box-shadow 0.3s ease, transform 0.3s ease;
-
 }
 
 .searchCityInput:hover {
