@@ -22,15 +22,34 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
 
   };
 
+  const cityDataIsLoaded = (cityName: string) => {
+
+    const availableData = ["London", "New-York", "Paris", "Berlin", "Rome", "Dubai", "Tokyo", "Amsterdam", "Warsaw"];
+
+    return availableData.includes(cityName);
+
+  };
+  
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
 
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter'){
 
-      navigate(`/city`); 
+      if (cityDataIsLoaded(event.currentTarget.value)){
+
+        navigate(`/city`, { state: { cityName } });
+
+      }
+
+      else{
+
+        navigate(`/error`, { state: { cityName, errorType: "cityIsNotFound" }});
+
+      }
 
     }
 
   };
+
 
   return (
 

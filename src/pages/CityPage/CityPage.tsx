@@ -1,38 +1,17 @@
+import { useLocation } from 'react-router-dom';
 
-import classes from './CityPage.module.css'
-
-import React, { useEffect, useState } from 'react';
-
-import { useParams } from 'react-router-dom';
+import CityPageContainer from './CityPageContainer/CityPageContainer';
 
 const CityPage = () => {
 
-  const { cityName } = useParams();
-
-  const [cityData, setCityData] = useState(null);
-
-  useEffect(() => {
-
-    fetch(`http://localhost:3000/${cityName}`)
-
-      .then((response) => response.json())
-
-      .then((data) => setCityData(data))
-
-      .catch((error) => console.error('Ошибка:', error));
-
-  }, [cityName]);
-
   return (
 
-    <div>
+    <>  
 
+      <CityPageContainer cityName={useLocation().state.cityName as string}/> 
 
-      data 
-
-
-    </div>
-
+    </>    
+    
   );
 
 };

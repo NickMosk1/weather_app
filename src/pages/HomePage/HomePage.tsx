@@ -1,5 +1,4 @@
-
-import HomePageContainer from './PreferencesContainer/HomePageContainer';
+import HomePageInfoContainer from './HomePageInfoContainer/HomePageInfoContainer';
 
 const HomePage = () => {
 
@@ -7,7 +6,7 @@ const HomePage = () => {
 
     <>
 
-      <HomePageContainer/>
+      <HomePageInfoContainer/>
 
     </>
 

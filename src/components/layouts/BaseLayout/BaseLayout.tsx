@@ -1,6 +1,9 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
+
 import classes from "./BaseLayout.module.css";
+
 import MyFooter from './MyFooter/MyFooter';
+
 import MyHeader from './MyHeader/MyHeader';
 
 interface BaseLayoutProps {

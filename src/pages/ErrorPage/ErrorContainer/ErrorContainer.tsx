@@ -2,35 +2,25 @@ import { Link } from 'react-router-dom';
 
 import classes from './ErrorContainer.module.css'
 
-import sadFace from './ErrorImages/sadFace.png'
-
 import RoutingButton from '../../../components/buttons/RoutingButton/RoutingButton';
 
-const ErrorContainer = () => {
+import ErrorDetailsContainer from './ErrorDetailsContainer/ErrorDetailsContainer';
+
+type ErrorContainerProps = {
+
+  cityName: string;
+
+  errorType: string;
+
+};
+
+const ErrorContainer: React.FC<ErrorContainerProps> = ({ errorType, cityName }) => {
 
     return (
   
-      <div className={classes.messageContainer}>
+      <>
 
-        <div className={classes.errorMessage}>
-          
-          Упс... Кажется, данных о погоде в таком городе у нас нет. 
-          
-        </div>
-
-        <img src={sadFace} alt="Sad face" className={classes.sadFaceImage}/>
-
-        <div className={classes.errorMessageDetails}>
-          
-          Возможно, такого города не существует. Попробуйте исправить поисковой запрос.
-          
-        </div>
-
-        <div className={classes.errorMessageDetails}>
-          
-          Ну или изучите погоду в London New-York San-Francisko
-          
-        </div>
+        <ErrorDetailsContainer errorType={errorType} cityName={cityName}/>
 
         <div className={classes.buttonContainer}>
 
@@ -46,10 +36,10 @@ const ErrorContainer = () => {
         
         </div>
 
-      </div>
+      </>
   
     );
   
-  };
+};
   
-  export default ErrorContainer;
+export default ErrorContainer;
