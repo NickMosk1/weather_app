@@ -1,5 +1,3 @@
-export default Hour;
-
 type PrecipType = 'rain' | 'snow' | null;
 
 interface Hour {
@@ -28,3 +26,5 @@ interface Hour {
     stations: string[];
     source: string;
 }
+
+export default Hour;

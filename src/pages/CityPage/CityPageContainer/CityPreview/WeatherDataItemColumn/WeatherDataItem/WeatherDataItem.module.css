@@ -1,0 +1,26 @@
+.weatherDataItem{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    justify-content: center;
+}
+
+.weatherDataItemTitle{
+    color: #333;
+    font-weight: 100;
+    font-size: 150%;
+    height: 10%;
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.weatherDataItemData{
+    color: #007bff;
+    font-weight: 800;
+    font-size: 250%;
+    height: 10%;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}

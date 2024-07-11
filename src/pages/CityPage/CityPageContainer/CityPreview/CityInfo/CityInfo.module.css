@@ -1,0 +1,43 @@
+.cityInfo{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.cityName{
+    color: #007bff;
+    font-weight: 900;
+    font-size: 600%;
+    height: 10%;
+    width: 100%;
+    text-align: center;
+    margin-top: 20%;
+}
+
+.resolvedCityAddress{
+    color: #333;
+    font-weight: 300;
+    font-size: 180%;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.cityDate{
+    color: #007bff;
+    font-weight: 900;
+    font-size: 600%;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.weatherSynopsis{
+    color: #333;
+    font-weight: 300;
+    font-size: 180%;
+    margin-top: 25px;
+    text-align: center;
+}

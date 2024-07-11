@@ -1,0 +1,7 @@
+.weatherDataItemColumn{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-around;
+    width: 40%;
+}

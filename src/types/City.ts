@@ -1,7 +1,5 @@
 import Day from "./Day";
 
-export default City;
-
 interface City {
     latitude: number;
     longitude: number;
@@ -12,3 +10,5 @@ interface City {
     name: string;
     days: Day[];
 }
+
+export default City;

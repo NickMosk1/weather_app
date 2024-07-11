@@ -1,20 +1,19 @@
 import Hour from "./Hour";
 
-export default Day;
-
 type PrecipType = 'rain' | 'snow' | null;
 
 interface Day {
+    [key: string]: any; //исправило проблему с item1 2 3
     datetime: string;
     datetimeEpoch: number;
-    tempmax: number;
-    tempmin: number;
-    temp: number;
+    tempmax: number; 
+    tempmin: number; 
+    temp: number; 
     feelslikemax: number;
     feelslikemin: number;
     feelslike: number;
     dew: number;
-    humidity: number;
+    humidity: number; 
     precip: number;
     precipprob: number;
     precipcover: number;
@@ -22,9 +21,9 @@ interface Day {
     snow: number;
     snowdepth: number;
     windgust: number;
-    windspeed: number;
+    windspeed: number; 
     winddir: number;
-    pressure: number;
+    pressure: number; 
     cloudcover: number;
     visibility: number;
     solarradiation: number;
@@ -42,3 +41,5 @@ interface Day {
     source: string;
     hours: Hour[];
 }
+
+export default Day;
