@@ -1,31 +1,24 @@
 .routingButton {
-        
-    color: #fff;
-
-    background-color: #007bff; 
-
-    padding: 10px 15px;
-
-    border: 1.7px solid #007bff; 
-
-    border-radius: 10px;
-
-    font-size: 120%;
-
+    color: #007bff; 
+    background-color: #fff;
+    padding: 10px 20px;
+    border: none; 
+    border-radius: 15px;
+    font-size: 125%;
     font-weight: 100;
-
     text-align: center;
-
     box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-
+    width: 'fit-content';
+    height: 'fit-content';
     cursor: pointer;
-    
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-
+    transition: box-shadow 0.3s ease, transform 0.3s ease, color 0.3s ease, background-color 0.3s ease;
 }
   
 .routingButton:hover {
     box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+    color: #fff;
+    background-color: #007bff; 
+    transform: scale(1.03); 
 }
 
 .routingButton:focus{

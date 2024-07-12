@@ -1,7 +1,7 @@
-.weatherDataItemColumn{
+.cityPageContainer{
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 70%;
     justify-content: space-around;
-    width: 30%;
 }

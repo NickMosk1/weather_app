@@ -1,3 +1,5 @@
+import Clock from '../../../../../components/other/Clock/Clock';
+
 import City from '../../../../../types/City';
 
 import classes from './CityInfo.module.css';
@@ -22,9 +24,7 @@ const CityInfo: React.FC<CityInfoProps> = ({weatherData}) => {
 
             <div className={classes.resolvedCityAddress}> {resolvedCityAddress} </div>
 
-            <div className={classes.cityDate}> {weatherData.days[0].datetime} </div>
-
-            <div className={classes.weatherSynopsis}> {weatherData.days[0].description} </div>
+            <Clock tzoffset={weatherData.tzoffset}/>
 
         </div>
 

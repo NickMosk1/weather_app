@@ -1,5 +1,3 @@
-import Clock from './Clock/Clock';
-
 import classes from './MyHeader.module.css'
 
 const MyHeader = () => {
@@ -15,8 +13,6 @@ const MyHeader = () => {
             MyMeteo
 
           </div>
-
-          <Clock/>
 
           <div className={classes.headerItem}>
               
