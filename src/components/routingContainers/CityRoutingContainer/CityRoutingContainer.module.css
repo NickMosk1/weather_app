@@ -1,0 +1,22 @@
+.cityRoutingContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 75px;
+}
+
+.cityRoutingContainerTitle{
+    color: #007bff;
+    font-weight: 900;
+    font-size: 200%;
+    text-align: center;
+    margin-bottom: 75px;
+}
+
+.cityRoutingContainerDetails{
+    margin-bottom: 75px;
+    color: #333;
+    font-weight: 100;
+    font-size: 135%;
+    text-align: center;
+}

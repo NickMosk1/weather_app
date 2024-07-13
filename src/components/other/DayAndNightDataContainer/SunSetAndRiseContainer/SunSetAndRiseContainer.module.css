@@ -1,0 +1,15 @@
+.sunSetAndRiseContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: fit-content;
+    margin: 70px;
+}
+
+.sunSetAndRiseContainerTitle{
+    margin-top: 25px;
+    color: #007bff;
+    font-size: 200%;
+    font-weight: 900;
+    text-align: center;
+}

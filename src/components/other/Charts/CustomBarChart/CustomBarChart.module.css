@@ -1,0 +1,14 @@
+.chartName{
+    margin: 20px;
+    font-size: 200%;
+    font-weight: 900;
+    color: #007bff;
+    text-align: center;
+}
+
+.customBarChart{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+}

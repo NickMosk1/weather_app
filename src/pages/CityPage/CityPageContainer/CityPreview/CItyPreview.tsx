@@ -24,7 +24,7 @@ const CityPreview: React.FC<CityPreviewProps> = ({weatherData, todayDate}) => {
 
             <CityInfo weatherData={weatherData}/>
             
-            <WeatherDataItemColumn weatherData={weatherData} item1={"pressure"} item2={"humidity"} item3={"windspeed"} todayDate={todayDate}/>
+            <WeatherDataItemColumn weatherData={weatherData} item1={"pressure"} item2={"humidity"} item3={"windgust"} todayDate={todayDate}/>
         
         </div>
 

@@ -38,7 +38,7 @@ const WeatherDataItem: React.FC<WeatherDataItemProps> = ({title, data}) => {
 
             break;
 
-        case "windspeed":
+        case "windgust":
             
             title = "Cкорость порывов ветра";
 

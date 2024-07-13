@@ -4,6 +4,7 @@ import TodayScreen from './MyWeatherChipScreens/TodayScreen/TodayScreen';
 import { useState } from 'react';
 import MyChipBar from '../../../../components/other/MyChipBar/MyChipBar';
 import classes from './CityWeatherAnalytics.module.css';
+import ThreeDaysScreen from './MyWeatherChipScreens/ThreeDaysScreen/ThreeDaysScreen';
 
 interface CityWeatherAnalyticsProps {
   weatherData: City;
@@ -31,7 +32,7 @@ const CityWeatherAnalytics: React.FC<CityWeatherAnalyticsProps> = ({ weatherData
         <MyChipBar selectedOption={selectedOption} setSelectedOption={setSelectedOption} chips={chips} />
         <div className={classes.selectedOption}>
           {selectedOption === 'today' && <TodayScreen weatherData={weatherData} todayDate={todayDate} />}
-          {selectedOption === 'threeDays' && <div>Аналитика погоды на 3 дня вперед</div>}
+          {selectedOption === 'threeDays' && <ThreeDaysScreen weatherData={weatherData} todayDate={todayDate} />}
           {selectedOption === 'week' && <div>Аналитика погоды на неделю вперед</div>}
         </div>
       </Paper>

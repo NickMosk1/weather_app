@@ -4,14 +4,14 @@ import WeatherChartsContainer from '../../../../../../components/other/WeatherCh
 import DayAndNightDataContainer from '../../../../../../components/other/DayAndNightDataContainer/DayAndNightDataContainer';
 import CityRoutingContainer from '../../../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
 
-interface TodayScreenProps {
+interface ThreeDaysScreenProps {
   weatherData: City;
   todayDate: string;
 }
 
 type ChartType = 'line' | 'bar';
 
-const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => {
+const ThreeDaysScreen: React.FC<ThreeDaysScreenProps> = ({ weatherData, todayDate }) => {
   
   const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
 
@@ -59,18 +59,10 @@ const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => 
 
   return (
     <>
-      <WeatherChartsContainer 
-        selectedOption={selectedOption} 
-        setSelectedOption={setSelectedOption} 
-        chartData={chartData} 
-        chips={chips} 
-        unitNames={unitNames}
-        chartType={chartTypes[selectedOption as keyof typeof chartTypes]} 
-      />
-      <DayAndNightDataContainer sunSetAndRiseData={sunSetAndRiseData} moonPhaseData={moonPhaseData}/>
+    
       <CityRoutingContainer/>
     </>
   );
 };
 
-export default TodayScreen;
+export default ThreeDaysScreen;
