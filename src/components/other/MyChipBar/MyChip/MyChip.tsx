@@ -1,22 +1,15 @@
 import React from 'react';
-
 import { styled } from '@mui/material/styles';
-
 import Chip from '@mui/material/Chip';
 
-interface MyCityPageChipProps {
-
+interface MyChipProps {
   label: string;
-
   selected: boolean;
-
   clickable: boolean;
-
   onClick: () => void;
-
 }
 
-const MyCityPageChipStyled = styled(({ label, selected, clickable, onClick, ...other }: MyCityPageChipProps) => (
+const MyChipStyled = styled(({ label, selected, clickable, onClick, ...other }: MyChipProps) => (
 
   <Chip {...other} label={label} clickable={clickable} onClick={onClick} />
 
@@ -34,10 +27,10 @@ const MyCityPageChipStyled = styled(({ label, selected, clickable, onClick, ...o
 
 }));
 
-const MyCityPageChip: React.FC<MyCityPageChipProps> = (props) => {
+const MyChip: React.FC<MyChipProps> = (props) => {
 
-  return <MyCityPageChipStyled {...props} />;
+  return <MyChipStyled {...props} />;
 
 };
 
-export default MyCityPageChip;
+export default MyChip;

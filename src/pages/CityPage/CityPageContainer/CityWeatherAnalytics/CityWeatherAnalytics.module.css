@@ -1,5 +1,4 @@
-.dataScreen{
+.selectedOption{
+    text-align: center;
     width: 100%;
-    height: fit-content;
 }
-

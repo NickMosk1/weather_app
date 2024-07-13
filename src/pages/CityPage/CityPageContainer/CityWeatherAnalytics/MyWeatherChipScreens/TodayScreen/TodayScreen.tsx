@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import City from '../../../../../../types/City';
-import CustomLineChart from './CustomLineChart/CustomLineChart';
-import classes from './TodayScreen.module.css';
+import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
+import SunSetAndRiseContainer from '../../../../../../components/other/SunSetAndRiseContainer/SunSetAndRiseContainer';
 
 interface TodayScreenProps {
   weatherData: City;
@@ -9,36 +9,62 @@ interface TodayScreenProps {
 }
 
 const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => {
+  
+  const [selectedOption, setSelectedOption] = useState<string>('temperature'); {/* все хуки до условного рендера должны быть */}
+
   const todayWeather = weatherData.days.find(day => day.datetime === todayDate);
 
   if (!todayWeather) {
     return <div>Данные о погоде на текущую дату не найдены</div>;
   }
 
-  const tempData = todayWeather.hours.map(hour => ({
-    time: hour.datetime.slice(0, -3),
-    value: hour.temp, // Изменено на number
-  }));
+  const chartData = {
+    temperature: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.temp })),
+    wind: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.windspeed })),
+    humidity: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.humidity })),
+    pressure: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.pressure })),
+  };
 
-  const windData = todayWeather.hours.map(hour => ({
-    time: hour.datetime.slice(0, -3),
-    value: hour.windspeed, // Изменено на number
-  }));
+  const chips = [
+    { label: 'Температура', value: 'temperature' },
+    { label: 'Ветер', value: 'wind' },
+    { label: 'Влажность', value: 'humidity' },
+    { label: 'Давление', value: 'pressure' },
+  ];
+  
+  const unitNames = {
+    temperature: '°C',
+    wind: 'м/с',
+    humidity: 'гр',
+    pressure: 'мм'
+  };
 
-  const humidityData = todayWeather.hours.map(hour => ({
-    time: hour.datetime.slice(0, -3),
-    value: hour.humidity, // Изменено на number
-  }));
+  const sunSetAndRiseData = [{sunrise: todayWeather.sunrise}, {sunset: todayWeather.sunset}];
 
   return (
+
     <>
-      <div className={classes.chartColumn}>
-        <CustomLineChart data={tempData} chartName="Температура" />
-        <CustomLineChart data={windData} chartName="Ветер" />
-        <CustomLineChart data={humidityData} chartName="Влажность" />
-      </div>
+
+      <WeatherChartsContainer 
+
+        selectedOption={selectedOption} 
+
+        setSelectedOption={setSelectedOption} 
+
+        chartData={chartData} 
+
+        chips={chips} 
+
+        unitNames={unitNames}
+
+      />
+
+      <SunSetAndRiseContainer sunSetAndRiseData = {sunSetAndRiseData}/>
+
     </>
+
   );
+
 };
 
 export default TodayScreen;
