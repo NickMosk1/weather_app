@@ -1,7 +1,6 @@
 import { styled } from '@mui/system';
 
 const LineChartPatternStyled = styled('div')({
-
     width: '70%',
     height: 350,
     backgroundColor: '#fff',
@@ -29,7 +28,6 @@ const LineChartPatternStyled = styled('div')({
       fontSize: '14px', 
       fontWeight: 'bold', 
     },
-  
 });
 
 export default LineChartPatternStyled;

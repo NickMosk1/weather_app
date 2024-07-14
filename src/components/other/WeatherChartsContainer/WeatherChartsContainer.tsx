@@ -1,12 +1,12 @@
-import React from 'react';
 import { Paper } from '@mui/material';
-import CustomLineChart from '../Charts/CustomLineChart/CustomLineChart';
-import CustomBarChart from '../Charts/CustomBarChart/CustomBarChart';
 import MyChipBar from '../MyChipBar/MyChipBar';
 import classes from './WeatherChartsContainer.module.css';
+import CustomBarChart from '../Charts/CustomBarChart/CustomBarChart';
+import CustomLineChart from '../Charts/CustomLineChart/CustomLineChart';
 
 interface ChartData {
-  time: string;
+  time?: string;
+  date?: string;
   value: number;
 }
 
@@ -22,9 +22,10 @@ interface WeatherChartsContainerProps {
   chips: Chip[];
   unitNames: { [key: string]: string };
   chartType: 'line' | 'bar';
+  dates?: string[]; 
 }
 
-const WeatherChartsContainer: React.FC<WeatherChartsContainerProps> = ({ selectedOption, setSelectedOption, chartData, chips, unitNames, chartType }) => {
+const WeatherChartsContainer: React.FC<WeatherChartsContainerProps> = ({ selectedOption, setSelectedOption, chartData, chips, unitNames, chartType, dates }) => {
 
   let ChartComponent: React.ElementType;
   switch (chartType) {
@@ -46,6 +47,7 @@ const WeatherChartsContainer: React.FC<WeatherChartsContainerProps> = ({ selecte
             data={chartData[chip.value]} 
             chartName={chip.label} 
             unitName={unitNames[chip.value]} 
+            dates={dates} 
           />
         ))}
       </div>

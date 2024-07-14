@@ -1,5 +1,6 @@
-import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios';
 import classes from './SearchCityInput.module.css';
 
 interface SearchCityInputProps {
@@ -8,15 +9,30 @@ interface SearchCityInputProps {
 
 const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
   const [cityName, setCityName] = useState('');
+  const [availableCities, setAvailableCities] = useState<string[]>([]);
   const navigate = useNavigate(); 
+
+  useEffect(() => {
+    const fetchAvailableCities = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/cities');
+        if (response.data) {
+          setAvailableCities(response.data.map((city: any) => city.name));
+        }
+      } catch (error) {
+        console.error('Ошибка при получении списка городов:', error);
+      }
+    };
+
+    fetchAvailableCities();
+  }, []);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCityName(event.target.value);
   };
 
   const cityDataIsLoaded = (cityName: string) => {
-    const availableData = ["London", "New-York", "Paris", "Berlin", "Rome", "Dubai", "Tokyo", "Amsterdam", "Warsaw"];
-    return availableData.includes(cityName);
+    return availableCities.includes(cityName);
   };
   
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

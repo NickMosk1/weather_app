@@ -1,7 +1,6 @@
 import { styled } from '@mui/system';
 
 const BarChartPatternStyled = styled('div')({
-
     width: '70%',
     height: 350,
     backgroundColor: '#fff',
@@ -29,7 +28,6 @@ const BarChartPatternStyled = styled('div')({
       fontSize: '14px', 
       fontWeight: 'bold', 
     },
-  
 });
 
 export default BarChartPatternStyled;

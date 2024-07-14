@@ -1,32 +1,21 @@
+import React from 'react';
 import classes from './CustomTooltip.module.css';
 
-type CustomTooltipProps = {
-  active?: boolean;
-  payload?: { value: number }[];
-  label?: string;
+interface CustomTooltipProps {
+  data: {value: number; index: number;};
+  label: string;
   unitName: string;
-};
+  dates?: string[];
+}
 
-const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label, unitName }) => {
-
-  if (active && payload && payload.length) {
-
-    return (
-
-      <div className={classes.customTooltip}>
-
-        <div className={classes.customTooltipText}>{`${label}`}</div>
-
-        <div className={classes.customTooltipText}>{`${payload[0].value} ${unitName}`}</div>
-
-      </div>
-
-    );
-
-  }
-
-  return null;
-
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ data, label, unitName, dates }) => {
+  return (
+    <div className={classes.customTooltip}>
+      <div className={classes.customTooltipText}>{`${dates ? dates[Math.floor(data.index / 24)] : ''}`}</div>
+      <div className={classes.customTooltipText}>{`${label}`}</div>
+      <div className={classes.customTooltipText}>{`${data.value} ${unitName}`}</div>
+    </div>
+  );
 };
 
 export default CustomTooltip;

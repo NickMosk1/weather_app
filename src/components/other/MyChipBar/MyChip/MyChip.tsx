@@ -10,11 +10,8 @@ interface MyChipProps {
 }
 
 const MyChipStyled = styled(({ label, selected, clickable, onClick, ...other }: MyChipProps) => (
-
   <Chip {...other} label={label} clickable={clickable} onClick={onClick} />
-
 ))(({ selected }) => ({
-
   backgroundColor: selected ? '#007bff' : '#fff',
   color: selected ? '#fff' : '#333',
   fontWeight: '100',
@@ -24,13 +21,10 @@ const MyChipStyled = styled(({ label, selected, clickable, onClick, ...other }: 
   margin: '15px',
   padding: '10px',
   height: 'fit-content',
-
 }));
 
 const MyChip: React.FC<MyChipProps> = (props) => {
-
   return <MyChipStyled {...props} />;
-
 };
 
 export default MyChip;

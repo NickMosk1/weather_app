@@ -1,32 +1,46 @@
 import React, { useState } from 'react';
 import City from '../../../../../../types/City';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
-import DayAndNightDataContainer from '../../../../../../components/other/DayAndNightDataContainer/DayAndNightDataContainer';
 import CityRoutingContainer from '../../../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
 
-interface TodayScreenProps {
+interface WeekScreenProps {
   weatherData: City;
   todayDate: string;
 }
 
 type ChartType = 'line' | 'bar';
 
-const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => {
+const getNextDate = (date: string, daysToAdd: number): string => {
+  const dateObj = new Date(date);
+  dateObj.setDate(dateObj.getDate() + daysToAdd);
+  return dateObj.toISOString().split('T')[0];
+};
+
+const generateChartData = (weatherData: any, key: string, startDate: string) => {
+  const startIndex = weatherData.days.findIndex((day: any) => day.datetime === startDate);
+  if (startIndex === -1) {
+    console.error(`Дата ${startDate} не найдена в данных weatherData`);
+    return [];
+  }
+  return weatherData.days.slice(startIndex, startIndex + 7).map((day: any) => ({
+    date: day.datetime,
+    value: day[key],
+  }));
+};
+
+const WeekScreen: React.FC<WeekScreenProps> = ({ weatherData, todayDate }) => {
   
   const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
 
-  const todayWeather = weatherData.days.find(day => day.datetime === todayDate);
-
-  if (!todayWeather) {
-    return <div>Данные о погоде на текущую дату не найдены</div>;
-  }
+  const dates = Array.from({ length: 7 }, (_, i) => getNextDate(todayDate, i));
+  console.log('Calculated dates:', dates); // Добавьте этот вывод для проверки дат
 
   const chartData = {
-    temperature: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.temp })),
-    wind: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.windspeed })),
-    humidity: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.humidity })),
-    pressure: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.pressure })),
-    precip: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.precip })),
+    temperature: generateChartData(weatherData, 'temp', todayDate),
+    wind: generateChartData(weatherData, 'windspeed', todayDate),
+    humidity: generateChartData(weatherData, 'humidity', todayDate),
+    pressure: generateChartData(weatherData, 'pressure', todayDate),
+    precip: generateChartData(weatherData, 'precip', todayDate)
   };
 
   const chips = [
@@ -34,7 +48,7 @@ const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => 
     { label: 'Скорость ветра', value: 'wind' },
     { label: 'Влажность', value: 'humidity' },
     { label: 'Давление', value: 'pressure' },
-    { label: 'Осадки', value: 'precip' },
+    { label: 'Осадки', value: 'precip' }
   ];
   
   const unitNames = {
@@ -53,10 +67,6 @@ const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => 
     precip: 'bar'
   };
 
-  const sunSetAndRiseData = [{ time: todayWeather.sunrise, epoch: todayWeather.sunriseEpoch }, { time: todayWeather.sunset, epoch: todayWeather.sunsetEpoch }];
-
-  const moonPhaseData = todayWeather.moonphase;
-
   return (
     <>
       <WeatherChartsContainer 
@@ -66,11 +76,13 @@ const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => 
         chips={chips} 
         unitNames={unitNames}
         chartType={chartTypes[selectedOption as keyof typeof chartTypes]} 
+        dates={dates} 
       />
-      <DayAndNightDataContainer sunSetAndRiseData={sunSetAndRiseData} moonPhaseData={moonPhaseData}/>
       <CityRoutingContainer/>
     </>
   );
 };
 
-export default TodayScreen;
+export default WeekScreen;
+
+

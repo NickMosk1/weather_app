@@ -11,7 +11,7 @@
     margin-left: 15%;
     margin-right: 15%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .headerItem{
@@ -19,9 +19,4 @@
     font-weight: 900;
     font-size: 300%;
     height: 10%;
-}
-
-.routingButtonText{
-    text-decoration: none; 
-    color: inherit; 
 }
