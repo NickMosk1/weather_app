@@ -1,4 +1,3 @@
-import React from 'react';
 import MyChip from './MyChip/MyChip';
 
 interface ChipData {
@@ -22,7 +21,6 @@ const MyChipBar: React.FC<MyChipBarProps> = ({ selectedOption, setSelectedOption
     <>
       {chips.map((chip) => (
         <MyChip
-          key={chip.value}
           label={chip.label}
           selected={selectedOption === chip.value}
           clickable={true}

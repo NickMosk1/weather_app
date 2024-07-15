@@ -1,13 +1,15 @@
-import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import classes from './SearchCityInput.module.css';
+import City from '../../../../types/City';
 
 interface SearchCityInputProps {
   placeholder: string;
 }
 
 const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
+
   const [cityName, setCityName] = useState('');
   const [availableCities, setAvailableCities] = useState<string[]>([]);
   const navigate = useNavigate(); 
@@ -17,13 +19,12 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
       try {
         const response = await axios.get('http://localhost:8000/cities');
         if (response.data) {
-          setAvailableCities(response.data.map((city: any) => city.name));
+          setAvailableCities(response.data.map((city: City) => city.name));
         }
       } catch (error) {
         console.error('Ошибка при получении списка городов:', error);
       }
     };
-
     fetchAvailableCities();
   }, []);
 
@@ -43,7 +44,6 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
         setCityName('');
       } else {
         navigate(`/error`, { state: { cityName, errorType: "cityIsNotFound" }});
-        window.scrollTo({ top: 0, behavior: 'smooth' });
         setCityName('');
       }
     }

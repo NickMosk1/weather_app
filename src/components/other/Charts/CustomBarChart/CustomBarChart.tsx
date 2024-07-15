@@ -1,11 +1,10 @@
-import React from 'react';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 import CustomTooltip from './CustomTooltip/CustomTooltip';
 import classes from './CustomBarChart.module.css';
 import BarChartPatternStyled from './BarChartPatternStyled/BarChartPatternStyled';
 
 interface CustomBarChartProps {
-  data: {time: string; value: number; index: number;}[];
+  data: {time: string; value: number; index?: number;}[];
   chartName: string;
   unitName: string;
   dates?: string[]; 

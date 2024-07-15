@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import City from '../../../types/City';
 import classes from './CityPageContainer.module.css';
@@ -10,13 +10,8 @@ interface CityPageContainerProps {
 }
 
 const calculateCityDate = (tzoffset: number): string => {
-  const localTime = new Date();
-  const utcTime = localTime.getTime() + localTime.getTimezoneOffset() * 60000;
-  const cityTime = new Date(utcTime + tzoffset * 3600000);
-  const year = cityTime.getFullYear();
-  const month = String(cityTime.getMonth() + 1).padStart(2, '0');
-  const day = String(cityTime.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  const cityTime = new Date(Date.now() + tzoffset * 3600000); {/* формируем новую дату по текущему времени UTC через .now() + учитываем переданную задержку */}
+  return cityTime.toISOString().split('T')[0]; {/*разделяем через T и обрезаем лишнее (HH-MM-SS и какой-то Z), берем только YYYY-MM-DD */}
 };
 
 const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
@@ -27,10 +22,9 @@ const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/cities?name=${cityName}`);
-      if (response.data && response.data.length > 0) {
+      if (response.data.length > 0) {
         setWeatherData(response.data[0]);
-        const date = calculateCityDate(response.data[0].tzoffset);
-        setTodayDate(date);
+        setTodayDate(calculateCityDate(response.data[0].tzoffset)); {/* здесь помимо самих данных по городу отдельно получаем еще и todayDate */}
       } else {
         console.error('Данные о погоде не найдены');
       }
@@ -41,22 +35,15 @@ const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
 
   useEffect(() => {
     fetchData();
-    const now = new Date();
-    const millisTillMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0).getTime() - now.getTime();
-    const timeoutId = setTimeout(() => {
+    const millisRemainTillNextHour = (60 - new Date().getMinutes()) * 60 * 1000 - new Date().getSeconds() * 1000 - new Date().getMilliseconds();
+    const timeoutId = setTimeout(() => { {/* устанавливаем таймер до наступления следующего часа, как только он отработал, ставим интервал для запроса данных в каждый час */}
       fetchData();
       setInterval(fetchData, 60 * 60 * 1000);
-    }, millisTillMidnight);
-    return () => clearTimeout(timeoutId);
+    }, millisRemainTillNextHour);
+    return () => clearTimeout(timeoutId); {/* обновляем всю работу таймера при смене cityName или отменяем ее при размонтировании всего компонента */}
   }, [cityName]);
 
-  if (!weatherData) {
-    return (
-      <div> Загрузка данных о погоде... </div>
-    );
-  }
-
-  console.log(todayDate, cityName);
+  if (!weatherData) {return (<div> Загрузка данных о погоде... </div>);} {/* в будущем надо дописать обработчик ошибок */}
 
   return (
     <div className={classes.cityPageContainer}>

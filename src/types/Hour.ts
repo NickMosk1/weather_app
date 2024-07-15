@@ -1,6 +1,7 @@
 type PrecipType = 'rain' | 'snow' | null;
 
 interface Hour {
+    [key: string]: any;
     datetime: string;
     datetimeEpoch: number;
     temp: number;

@@ -25,25 +25,27 @@ interface WeatherChartsContainerProps {
   dates?: string[]; 
 }
 
-const WeatherChartsContainer: React.FC<WeatherChartsContainerProps> = ({ selectedOption, setSelectedOption, chartData, chips, unitNames, chartType, dates }) => {
-
-  let ChartComponent: React.ElementType;
+const getChartComponent = (chartType: 'line' | 'bar'): React.ElementType => {
   switch (chartType) {
     case 'line':
-      ChartComponent = CustomLineChart;
-      break;
+      return CustomLineChart;
     case 'bar':
-      ChartComponent = CustomBarChart;
-      break;
+      return CustomBarChart;
+    default:
+      throw new Error('Unknown chart type');
   }
+};
+
+const WeatherChartsContainer: React.FC<WeatherChartsContainerProps> = ({ selectedOption, setSelectedOption, chartData, chips, unitNames, chartType, dates }) => {
+
+  const ChartComponent = getChartComponent(chartType);
 
   return (
-    <Paper style={{ backgroundColor: 'unset', boxShadow: 'unset', padding: '15px', textAlign: 'center' }}>
-      <div className={classes.customLineChartContainer}>
+    <Paper style={{ backgroundColor: 'unset', boxShadow: 'unset', textAlign: 'center' }}>
+      <div className={classes.weatherChartsContainer}>
         {chips.map(chip => (
           selectedOption === chip.value && 
           <ChartComponent 
-            key={chip.value} 
             data={chartData[chip.value]} 
             chartName={chip.label} 
             unitName={unitNames[chip.value]} 

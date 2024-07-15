@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import City from '../../../../../../types/City';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
 import CityRoutingContainer from '../../../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
@@ -17,7 +17,7 @@ const generateChartData = (weatherData: City, key: string, startDate: string) =>
     console.error(`Дата ${startDate} не найдена в данных weatherData`);
     return [];
   }
-  return weatherData.days.slice(startIndex, startIndex + 7).map((day: Day) => ({
+  return weatherData.days.slice(startIndex, startIndex + 14).map((day: Day) => ({
     time: day.datetime.slice(5),
     value: day[key],
   }));

@@ -1,4 +1,4 @@
-import React, { ReactNode, ButtonHTMLAttributes } from 'react';
+import { ReactNode, ButtonHTMLAttributes } from 'react';
 import classes from './RoutingButton.module.css';
 
 interface RoutingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -7,9 +7,7 @@ interface RoutingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const RoutingButton: React.FC<RoutingButtonProps> = ({ children }) => {
   return (
-    <button className={classes.routingButton}>
-      {children}
-    </button>
+    <button className={classes.routingButton}> {children} </button>
   );
 };
 

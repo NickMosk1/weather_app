@@ -4,13 +4,14 @@ import LineChartPatternStyled from './LineChartPatternStyled/LineChartPatternSty
 import classes from './CustomLineChart.module.css';
 
 interface CustomLineChartProps {
-  data: {time: string; value: number; index: number;}[];
+  data: {time: string; value: number; index?: number;}[];
   chartName: string;
   unitName: string;
   dates?: string[]; 
 }
 
 const CustomLineChart: React.FC<CustomLineChartProps> = ({ data, chartName, unitName, dates }) => {
+  console.log("data is:" , data);
   return (
     <div className={classes.customLineChart}>
       <div className={classes.chartName}> {chartName} </div>
@@ -23,8 +24,6 @@ const CustomLineChart: React.FC<CustomLineChartProps> = ({ data, chartName, unit
             <Tooltip 
               content={({ payload = [], label }) => { {/* можно только так, в библиотеке recharts сюда можно передать актив, пэйлоад, лэйбл */}
                 if (payload.length) {
-                  
-                  console.log('Payload:', payload);
                   return (
                     <CustomTooltip 
                       data={{ value: payload[0].payload.value, index: payload[0].payload.index }} 

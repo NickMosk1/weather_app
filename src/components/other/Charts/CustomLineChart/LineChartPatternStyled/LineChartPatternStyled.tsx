@@ -5,8 +5,7 @@ const LineChartPatternStyled = styled('div')({
     height: 350,
     backgroundColor: '#fff',
     color: '#007bff',
-    paddingTop: '20px',
-    margin: '20px',
+    marginTop: '30px',
     '& .recharts-text': {
       fill: '#007bff',
       fontSize: '14px', 

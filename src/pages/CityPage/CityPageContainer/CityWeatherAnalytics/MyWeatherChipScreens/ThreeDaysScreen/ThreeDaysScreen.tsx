@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import City from '../../../../../../types/City';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
 import CityRoutingContainer from '../../../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
+import Day from '../../../../../../types/Day';
+import Hour from '../../../../../../types/Hour';
 
 interface ThreeDaysScreenProps {
   weatherData: City;
@@ -16,8 +18,8 @@ const getNextDate = (date: string, daysToAdd: number): string => {
   return dateObj.toISOString().split('T')[0];
 };
 
-const generateChartData = (weatherData: any, key: string, startIndex: number) => {
-  return weatherData.hours.map((hour: any, index: number) => ({
+const generateChartData = (weatherData: Day, key: string, startIndex: number) => {
+  return weatherData.hours.map((hour: Hour, index: number) => ({
     time: hour.datetime.slice(0, -3),
     value: hour[key],
     index: startIndex + index,
@@ -38,9 +40,7 @@ const ThreeDaysScreen: React.FC<ThreeDaysScreenProps> = ({ weatherData, todayDat
 
   const dates = [todayDate, getNextDate(todayDate, 1), getNextDate(todayDate, 2)];
 
-  if (!todayWeather || !secondDayWeather || !thirdDayWeather) {
-    return <div>Данные о погоде на текущую или следующие даты не найдены</div>;
-  }
+  if (!todayWeather || !secondDayWeather || !thirdDayWeather) {return (<div>Данные о погоде на текущую или следующие даты не найдены</div>)}
 
   const chartData = {
     temperature: [
@@ -96,7 +96,6 @@ const ThreeDaysScreen: React.FC<ThreeDaysScreenProps> = ({ weatherData, todayDat
 
   return (
     <>
-      
       <WeatherChartsContainer 
         selectedOption={selectedOption} 
         setSelectedOption={setSelectedOption} 

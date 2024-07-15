@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import City from '../../../../../../types/City';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
 import DayAndNightDataContainer from '../../../../../../components/other/DayAndNightDataContainer/DayAndNightDataContainer';
@@ -17,9 +17,7 @@ const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => 
 
   const todayWeather = weatherData.days.find(day => day.datetime === todayDate);
 
-  if (!todayWeather) {
-    return <div>Данные о погоде на текущую дату не найдены</div>;
-  }
+  if (!todayWeather) {return (<div>Данные о погоде на текущую дату не найдены</div>)} {/* в будущем добавить обработчик ошибок */}
 
   const chartData = {
     temperature: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.temp })),
@@ -55,8 +53,6 @@ const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => 
 
   const sunSetAndRiseData = [{ time: todayWeather.sunrise, epoch: todayWeather.sunriseEpoch }, { time: todayWeather.sunset, epoch: todayWeather.sunsetEpoch }];
 
-  const moonPhaseData = todayWeather.moonphase;
-
   return (
     <>
       <WeatherChartsContainer 
@@ -67,7 +63,7 @@ const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => 
         unitNames={unitNames}
         chartType={chartTypes[selectedOption as keyof typeof chartTypes]} 
       />
-      <DayAndNightDataContainer sunSetAndRiseData={sunSetAndRiseData} moonPhaseData={moonPhaseData}/>
+      <DayAndNightDataContainer sunSetAndRiseData={sunSetAndRiseData} moonPhaseData={todayWeather.moonphase}/>
       <CityRoutingContainer/>
     </>
   );

@@ -5,13 +5,12 @@ interface ClockProps {
   tzoffset: number;
 }
 
-const Clock: React.FC<ClockProps> = ({ tzoffset }) => {
+const calculateCityTime = (tzoffset: number) => {
+  const utcTime = Date.now() + new Date().getTimezoneOffset() * 60000;
+  return new Date(utcTime + tzoffset * 3600000);
+};
 
-  const calculateCityTime = (offset: number) => {
-    const localTime = new Date();
-    const utcTime = localTime.getTime() + localTime.getTimezoneOffset() * 60000;
-    return new Date(utcTime + offset * 3600000);
-  };
+const Clock: React.FC<ClockProps> = ({ tzoffset }) => {
 
   const [time, setTime] = useState<Date>(calculateCityTime(tzoffset));
 
@@ -19,9 +18,7 @@ const Clock: React.FC<ClockProps> = ({ tzoffset }) => {
     const timer = setInterval(() => {
       setTime(calculateCityTime(tzoffset));
     }, 1000);
-    return () => {
-      clearInterval(timer);
-    };
+    return () => {clearInterval(timer);};
   }, [tzoffset]);
 
   return (

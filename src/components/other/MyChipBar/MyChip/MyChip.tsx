@@ -18,7 +18,7 @@ const MyChipStyled = styled(({ label, selected, clickable, onClick, ...other }: 
   fontSize: '125%',
   width: 'fit-content',
   textAlign: 'center',
-  margin: '15px',
+  margin: '30px',
   padding: '10px',
   height: 'fit-content',
 }));

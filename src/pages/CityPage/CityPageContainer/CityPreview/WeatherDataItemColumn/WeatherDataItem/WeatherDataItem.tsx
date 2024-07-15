@@ -7,6 +7,16 @@ interface WeatherDataItemProps{
     data: string | number | PrecipType;
 }
 
+const getPrecipitationDescription = (precipType: PrecipType): string[] => {
+    if (precipType === 'rain') {
+        return ['Осадки в виде', 'дождя'];
+    } else if (precipType === 'snow') {
+        return ['Осадки в виде', 'дождя'];
+    } else {
+        return ['Осадков', 'нет'];
+    }
+  };
+
 const WeatherDataItem: React.FC<WeatherDataItemProps> = ({title, data}) => {
 
     switch (title) {
@@ -33,6 +43,14 @@ const WeatherDataItem: React.FC<WeatherDataItemProps> = ({title, data}) => {
         case "humidity":
             title = "Влажность воздуха";
             data += " %";
+            break;
+        case "dew":
+            title = "Значение точки росы";
+            data += " °C";
+            break;
+        case "preciptype":
+            title = `${getPrecipitationDescription(data as PrecipType)[0]}`;
+            data = `${getPrecipitationDescription(data as PrecipType)[1]}`;
             break;
         default:
             title="Неизвестно"
