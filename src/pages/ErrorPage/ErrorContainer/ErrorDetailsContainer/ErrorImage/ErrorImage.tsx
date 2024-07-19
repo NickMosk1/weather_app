@@ -1,10 +1,10 @@
 import classes from './ErrorImage.module.css';
-import ErrorImagePNG from './ErrorImage.png';
+import CityNotFoundErrorImage from './CityNotFoundErrorImage.png';
 
 const ErrorImage = () => {
     return(
         <>
-            <img src={ErrorImagePNG} alt="Sad face" className={classes.errorImage}/>
+            <img src={CityNotFoundErrorImage} alt="Sad face" className={classes.errorImage}/>
         </>
     )
 }

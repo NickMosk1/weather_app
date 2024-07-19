@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './SunSetAndRiseContainer.module.css';
 import SunSetAndRiseImage from './SunSetAndRiseImages/SunSetAndRiseImage';
 import SunSetAndRiseItem from './SunSetAndRiseItem/SunSetAndRiseItem';

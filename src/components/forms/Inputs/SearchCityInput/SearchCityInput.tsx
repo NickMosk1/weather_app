@@ -6,9 +6,10 @@ import City from '../../../../types/City';
 
 interface SearchCityInputProps {
   placeholder: string;
+  darkMode: boolean;
 }
 
-const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
+const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder, darkMode }) => {
 
   const [cityName, setCityName] = useState('');
   const [availableCities, setAvailableCities] = useState<string[]>([]);
@@ -55,7 +56,7 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
         type="text"
         name="searchCityInput"
         placeholder={placeholder}
-        className={classes.searchCityInput}
+        className={`${classes.searchCityInput} ${darkMode && classes['searchCityInput--dark']}`}
         value={cityName}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}

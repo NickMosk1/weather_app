@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { ThemeContext } from '../../../../../../components/themes/ThemeContext/ThemeContext';
 import classes from './WeatherDataItem.module.css';
 
 type PrecipType = 'rain' | 'snow' | null;
@@ -18,6 +20,8 @@ const getPrecipitationDescription = (precipType: PrecipType): string[] => {
   };
 
 const WeatherDataItem: React.FC<WeatherDataItemProps> = ({title, data}) => {
+    
+    const { darkMode } = useContext(ThemeContext);
 
     switch (title) {
         case "tempmax":
@@ -59,8 +63,8 @@ const WeatherDataItem: React.FC<WeatherDataItemProps> = ({title, data}) => {
     }
 
     return(
-        <div className={classes.weatherDataItem}>
-            <div className={classes.weatherDataItemTitle}> {title} </div>
+        <div className={classes.weatherDataItem} >
+            <div className={`${classes.weatherDataItemTitle} ${darkMode && classes['weatherDataItemTitle--dark']}`}> {title} </div>
             <div className={classes.weatherDataItemData}> {data} </div>
         </div>
     )

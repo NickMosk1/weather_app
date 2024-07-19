@@ -11,7 +11,8 @@
     margin-left: 15%;
     margin-right: 15%;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .headerItem{
@@ -19,4 +20,16 @@
     font-weight: 900;
     font-size: 300%;
     height: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.myHeader--dark {
+    background-color: #333333;
+}
+
+.headerItem--dark {
+    color: #007bff;
 }

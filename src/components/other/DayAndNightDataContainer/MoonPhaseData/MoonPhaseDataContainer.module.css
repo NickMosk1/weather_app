@@ -19,3 +19,7 @@
     font-size: 130%;
     text-align: center;
 }
+
+.moonPhaseDataContainerData--dark{
+    color: #bbbbbb;
+}

@@ -1,4 +1,5 @@
-import React from 'react';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../themes/ThemeContext/ThemeContext';
 import classes from './MoonPhaseDataContainer.module.css';
 
 interface MoonPhaseDataContainerProps {
@@ -18,14 +19,16 @@ const getMoonPhaseName = (phase: number): string => {
 };
 
 const MoonPhaseDataContainer: React.FC<MoonPhaseDataContainerProps> = ({ moonPhaseData }) => {
+  
+  const {darkMode} = useContext(ThemeContext);
 
   const moonPhaseName = getMoonPhaseName(moonPhaseData);
 
   return (
     <div className={classes.moonPhaseDataContainer}>
       <div className={classes.moonPhaseDataContainerTitle}>Фаза Луны</div>
-      <div className={classes.moonPhaseDataContainerData}>Коэффициент: {moonPhaseData}</div>
-      <div className={classes.moonPhaseDataContainerData}>Название: {moonPhaseName}</div>
+      <div className={`${classes.moonPhaseDataContainerData} ${darkMode && classes['moonPhaseDataContainerData--dark']}`}>Коэффициент: {moonPhaseData}</div>
+      <div className={`${classes.moonPhaseDataContainerData} ${darkMode && classes['moonPhaseDataContainerData--dark']}`}>Название: {moonPhaseName}</div>
     </div>
   );
 };

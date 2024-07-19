@@ -1,0 +1,12 @@
+.linearProgress{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.linearProgressQuote{
+    margin-top: 300px;
+    font-weight: 900;
+    font-size: 300%;
+    color: #007bff;
+}

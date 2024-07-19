@@ -12,3 +12,7 @@
 .customTooltipText{
     margin: auto 5px;
 }
+
+.customTooltip--dark{ 
+    background-color: #333333;
+}

@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './DayAndNightDataContainer.module.css';
 import SunSetAndRiseContainer from './SunSetAndRiseContainer/SunSetAndRiseContainer';
 import MoonPhaseDataContainer from './MoonPhaseData/MoonPhaseDataContainer';

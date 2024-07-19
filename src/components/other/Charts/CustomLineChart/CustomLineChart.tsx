@@ -2,6 +2,8 @@ import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Tooltip, L
 import CustomTooltip from './CustomTooltip/CustomTooltip';
 import LineChartPatternStyled from './LineChartPatternStyled/LineChartPatternStyled';
 import classes from './CustomLineChart.module.css';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../themes/ThemeContext/ThemeContext';
 
 interface CustomLineChartProps {
   data: {time: string; value: number; index?: number;}[];
@@ -11,11 +13,13 @@ interface CustomLineChartProps {
 }
 
 const CustomLineChart: React.FC<CustomLineChartProps> = ({ data, chartName, unitName, dates }) => {
-  console.log("data is:" , data);
+  
+  const {darkMode} = useContext(ThemeContext);
+
   return (
     <div className={classes.customLineChart}>
       <div className={classes.chartName}> {chartName} </div>
-      <LineChartPatternStyled>
+      <LineChartPatternStyled darkMode={darkMode}>
         <ResponsiveContainer>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />

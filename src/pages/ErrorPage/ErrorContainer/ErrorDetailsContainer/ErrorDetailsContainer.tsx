@@ -1,5 +1,7 @@
 import ErrorImage from './ErrorImage/ErrorImage';
 import classes from './ErrorDetailsContainer.module.css';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../../components/themes/ThemeContext/ThemeContext';
 
 type ErrorDetailsContainerProps = {
     cityName: string;
@@ -7,11 +9,14 @@ type ErrorDetailsContainerProps = {
 };
   
 const ErrorDetailsContainer: React.FC<ErrorDetailsContainerProps> = ({ errorType, cityName }) => {
+
+    const {darkMode} = useContext(ThemeContext);
+
     return (
-        <> {/* в зависимости от значения errorType сообщение и детали ниже будут разными */}
+        <>
             <div className={classes.errorMessage}> Упс... Кажется, данных о погоде <br/> в городе {cityName} у нас нет. </div>
             <ErrorImage/>
-            <div className={classes.errorMessageDetails}> Возможно, такого города не существует. Попробуйте исправить поисковой запрос. </div>
+            <div className={`${classes.errorMessageDetails} ${darkMode && classes['errorMessageDetails--dark']}`}> Возможно, такого города не существует. <br/> Попробуйте исправить поисковой запрос. </div>
         </>
     );
 };
