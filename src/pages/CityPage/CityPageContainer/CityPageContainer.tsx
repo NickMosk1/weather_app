@@ -4,6 +4,7 @@ import City from '../../../types/City';
 import classes from './CityPageContainer.module.css';
 import CityWeatherAnalytics from './CityWeatherAnalytics/CityWeatherAnalytics';
 import CityPreview from './CityPreview/CItyPreview';
+import LinearPageLoader from '../../../components/pageLoaders/LinearPageLoader/LinearPageLoader';
 
 interface CityPageContainerProps {
   cityName: string;
@@ -21,19 +22,23 @@ const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/cities?name=${cityName}`);
-      if (response.data.length > 0) {
-        setWeatherData(response.data[0]);
-        setTodayDate(calculateCityDate(response.data[0].tzoffset)); {/* здесь помимо самих данных по городу отдельно получаем еще и todayDate */}
-      } else {
-        console.error('Данные о погоде не найдены');
-      }
+      setTimeout(async () => {
+        const response = await axios.get(`http://localhost:8000/cities?name=${cityName}`);
+        if (response.data.length > 0) {
+          setWeatherData(response.data[0]);
+          setTodayDate(calculateCityDate(response.data[0].tzoffset));
+        } else {
+          console.error('Данные о погоде не найдены');
+        }
+      }, 5000); 
     } catch (error) {
       console.error('Ошибка при получении данных о погоде:', error);
     }
   };
 
   useEffect(() => {
+    setWeatherData(null);
+    setTimeout(() => {}, 5000);
     fetchData();
     const millisRemainTillNextHour = (60 - new Date().getMinutes()) * 60 * 1000 - new Date().getSeconds() * 1000 - new Date().getMilliseconds();
     const timeoutId = setTimeout(() => { {/* устанавливаем таймер до наступления следующего часа, как только он отработал, ставим интервал для запроса данных в каждый час */}
@@ -43,7 +48,7 @@ const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
     return () => clearTimeout(timeoutId); {/* обновляем всю работу таймера при смене cityName или отменяем ее при размонтировании всего компонента */}
   }, [cityName]);
 
-  if (!weatherData) {return (<div> Загрузка данных о погоде... </div>);} {/* в будущем надо дописать обработчик ошибок */}
+  if (!weatherData) {return (<LinearPageLoader/>);} {/* в будущем надо дописать обработчик ошибок */}
 
   return (
     <div className={classes.cityPageContainer}>

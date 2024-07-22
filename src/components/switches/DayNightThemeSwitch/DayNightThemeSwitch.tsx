@@ -30,7 +30,7 @@ const StyledSwitch = styled(MaterialUISwitch)(({ theme }) => ({
         backgroundSize: 'contain', 
         backgroundPosition: 'center', 
         backgroundRepeat: 'no-repeat', 
-        backgroundColor: '#001e3c', 
+        backgroundColor: '#007bff', 
         borderRadius: '50%',
       },
 

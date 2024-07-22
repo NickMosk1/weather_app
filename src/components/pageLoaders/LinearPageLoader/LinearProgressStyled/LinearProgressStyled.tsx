@@ -1,10 +1,10 @@
 import { styled } from '@mui/system';
 
 const LinearProgressStyled = styled('div')({
-    width: '80%',
+    width: '100%',
     backgroundColor: '#fff',
     color: '#007bff',
-    marginTop: '110px',
+    marginTop: '120px',
     marginBottom: '300px',
 });
 

@@ -6,7 +6,7 @@ import LinearProgressStyled from './LinearProgressStyled/LinearProgressStyled';
 const LinearPageLoader = () => {
   return (
     <div className={classes.linearProgress}>
-      <div className={classes.linearProgressQuote}>Please, wait...</div>
+      <div className={classes.linearProgressQuote}>Секундочку...</div>
       <LinearProgressStyled>
         <Box>
           <LinearProgress />
