@@ -1,38 +1,35 @@
-import React, { useState } from 'react';
-import City from '../../../../../../types/City';
-import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
-import CityRoutingContainer from '../../../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
-import Day from '../../../../../../types/Day';
-
-interface WeekScreenProps {
-  weatherData: City;
-  todayDate: string;
-}
+import { useState } from "react";
+import City from "../../../../types/City";
+import Day from "../../../../types/Day";
+import WeatherStore from "../../../../components/stores/WeatherStore/WeatherStore";
+import WeatherChartsContainer from "../../../../components/other/WeatherChartsContainer/WeatherChartsContainer";
 
 type ChartType = 'line' | 'bar';
 
 const generateChartData = (weatherData: City, key: string, startDate: string) => {
-  const startIndex = weatherData.days.findIndex((day: Day) => day.datetime === startDate);
+  const startIndex = weatherData.days.findIndex((day: Day) => day.datetime === '2024-07-07');
   if (startIndex === -1) {
     console.error(`Дата ${startDate} не найдена в данных weatherData`);
     return [];
   }
-  return weatherData.days.slice(startIndex, startIndex + 7).map((day: Day) => ({
+  return weatherData.days.slice(startIndex, startIndex + 8).map((day: Day) => ({
     time: day.datetime.slice(5),
     value: day[key],
   }));
 };
 
-const WeekScreen: React.FC<WeekScreenProps> = ({ weatherData, todayDate }) => {
-  
+const JournalRangeScreen= () => {
+
+  const { weatherData, todayDate } = WeatherStore;
+
   const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
 
   const chartData = {
-    temperature: generateChartData(weatherData, 'temp', todayDate),
-    wind: generateChartData(weatherData, 'windspeed', todayDate),
-    humidity: generateChartData(weatherData, 'humidity', todayDate),
-    pressure: generateChartData(weatherData, 'pressure', todayDate),
-    precip: generateChartData(weatherData, 'precip', todayDate)
+    temperature: weatherData ? generateChartData(weatherData, 'temp', todayDate) : [],
+    wind: weatherData ? generateChartData(weatherData, 'windspeed', todayDate) : [],
+    humidity: weatherData ? generateChartData(weatherData, 'humidity', todayDate) : [],
+    pressure: weatherData ? generateChartData(weatherData, 'pressure', todayDate) : [],
+    precip: weatherData ? generateChartData(weatherData, 'precip', todayDate) : [],
   };
 
   const chips = [
@@ -69,9 +66,8 @@ const WeekScreen: React.FC<WeekScreenProps> = ({ weatherData, todayDate }) => {
         unitNames={unitNames}
         chartType={chartTypes[selectedOption as keyof typeof chartTypes]} 
       />
-      <CityRoutingContainer/>
     </>
   );
 };
 
-export default WeekScreen;
+export default JournalRangeScreen;

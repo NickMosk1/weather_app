@@ -12,7 +12,7 @@ interface WeekScreenProps {
 type ChartType = 'line' | 'bar';
 
 const generateChartData = (weatherData: City, key: string, startDate: string) => {
-  const startIndex = weatherData.days.findIndex((day: any) => day.datetime === startDate);
+  const startIndex = weatherData.days.findIndex((day: Day) => day.datetime === startDate);
   if (startIndex === -1) {
     console.error(`Дата ${startDate} не найдена в данных weatherData`);
     return [];

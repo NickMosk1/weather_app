@@ -3,7 +3,7 @@ import axios from 'axios';
 import City from '../../../types/City';
 import classes from './CityPageContainer.module.css';
 import CityWeatherAnalytics from './CityWeatherAnalytics/CityWeatherAnalytics';
-import CityPreview from './CityPreview/CItyPreview';
+import SingleDayCityPreview from './SingleDayCityPreview/SingleDayCityPreview';
 import LinearPageLoader from '../../../components/pageLoaders/LinearPageLoader/LinearPageLoader';
 
 interface CityPageContainerProps {
@@ -30,7 +30,7 @@ const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
         } else {
           console.error('Данные о погоде не найдены');
         }
-      }, 5000); 
+      }, 0); 
     } catch (error) {
       console.error('Ошибка при получении данных о погоде:', error);
     }
@@ -38,7 +38,7 @@ const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
 
   useEffect(() => {
     setWeatherData(null);
-    setTimeout(() => {}, 5000);
+    setTimeout(() => {}, 0);
     fetchData();
     const millisRemainTillNextHour = (60 - new Date().getMinutes()) * 60 * 1000 - new Date().getSeconds() * 1000 - new Date().getMilliseconds();
     const timeoutId = setTimeout(() => { {/* устанавливаем таймер до наступления следующего часа, как только он отработал, ставим интервал для запроса данных в каждый час */}
@@ -52,7 +52,7 @@ const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
 
   return (
     <div className={classes.cityPageContainer}>
-      <CityPreview weatherData={weatherData} todayDate={todayDate} />
+      <SingleDayCityPreview weatherData={weatherData} todayDate={todayDate} />
       <CityWeatherAnalytics weatherData={weatherData} todayDate={todayDate} />
     </div>
   );

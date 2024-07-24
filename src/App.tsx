@@ -4,8 +4,9 @@ import HomePage from "./pages/HomePage/HomePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import CityPage from "./pages/CityPage/CityPage";
 import { ThemeProvider } from './components/themes/ThemeContext/ThemeContext';
+import CityJournalPage from "./pages/CityJournalPage/CityJournalPage";
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <>
       <BrowserRouter>
@@ -23,6 +24,10 @@ const App: React.FC = () => {
               <Route
                 path="/city"
                 element={<CityPage />}
+              />
+              <Route
+                path="/cityJournal"
+                element={<CityJournalPage />}
               />
             </Routes>
           </BaseLayout>
