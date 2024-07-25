@@ -15,7 +15,7 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
   return (
     <>
       <MyHeader/>
-      <main className={`${classes.myMain} ${darkMode ? classes['myMain--dark'] : ''}`}>
+      <main className={`${classes.myMain} ${darkMode && classes['myMain--dark']}`}>
         {children} 
       </main>
       <MyFooter/>

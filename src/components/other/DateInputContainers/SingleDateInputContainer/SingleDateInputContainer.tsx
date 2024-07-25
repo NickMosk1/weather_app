@@ -1,4 +1,4 @@
-import WeatherStore from "../../../stores/WeatherStore/WeatherStore";
+import WeatherStore from "../../../stores/JournalDataStore/JournalDataStore";
 import DateInput from "../../../forms/Inputs/DateInput/DateInput";
 import classes from './SingleDateInputContainer.module.css';
 import { useContext } from "react";

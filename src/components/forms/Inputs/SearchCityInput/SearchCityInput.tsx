@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import classes from './SearchCityInput.module.css';
 import City from '../../../../types/City';
+import ForecastDataStore from '../../../stores/ForecastDataStore/ForecastDataStore';
 
 interface SearchCityInputProps {
   placeholder: string;
@@ -18,7 +19,7 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder, darkMode
   useEffect(() => {
     const fetchAvailableCities = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/cities');
+        const response = await axios.get('http://localhost:8000/citiesForecastData');
         if (response.data) {
           setAvailableCities(response.data.map((city: City) => city.name));
         }
@@ -40,7 +41,8 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder, darkMode
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       if (cityDataIsLoaded(event.currentTarget.value)) {
-        navigate(`/city`, { state: { cityName } });
+        ForecastDataStore.fetchData(cityName);
+        navigate(`/cityForecast`, { state: { cityName } });
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setCityName('');
       } else {

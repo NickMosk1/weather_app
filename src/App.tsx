@@ -1,10 +1,10 @@
 import BaseLayout from "./components/layouts/BaseLayout/BaseLayout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ThemeProvider } from './components/themes/ThemeContext/ThemeContext';
 import HomePage from "./pages/HomePage/HomePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import CityPage from "./pages/CityPage/CityPage";
-import { ThemeProvider } from './components/themes/ThemeContext/ThemeContext';
 import CityJournalPage from "./pages/CityJournalPage/CityJournalPage";
+import CityForecastPage from "./pages/CityForecastPage/CityForecastPage";
 
 const App = () => {
   return (
@@ -15,19 +15,19 @@ const App = () => {
             <Routes>
               <Route
                 path="/"
-                element={<HomePage />}
+                element={<HomePage/>}
               />
               <Route
                 path="/error"
-                element={<ErrorPage />}
+                element={<ErrorPage/>}
               />
               <Route
-                path="/city"
-                element={<CityPage />}
+                path="/cityForecast"
+                element={<CityForecastPage/>}
               />
               <Route
                 path="/cityJournal"
-                element={<CityJournalPage />}
+                element={<CityJournalPage/>}
               />
             </Routes>
           </BaseLayout>

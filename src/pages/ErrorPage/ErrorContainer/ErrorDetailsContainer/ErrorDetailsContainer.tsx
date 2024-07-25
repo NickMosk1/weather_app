@@ -7,7 +7,9 @@ type ErrorDetailsContainerProps = {
     cityName: string;
     errorType: string;
 };
-  
+
+type ErrorTypes = 'cityIsNotFound' | 'dateDataIsNotFound';
+
 const ErrorDetailsContainer: React.FC<ErrorDetailsContainerProps> = ({ errorType, cityName }) => {
 
     const {darkMode} = useContext(ThemeContext);

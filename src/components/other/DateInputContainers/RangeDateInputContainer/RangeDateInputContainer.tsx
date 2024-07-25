@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import DateInput from "../../../forms/Inputs/DateInput/DateInput";
-import WeatherStore from "../../../stores/WeatherStore/WeatherStore";
+import WeatherStore from "../../../stores/JournalDataStore/JournalDataStore";
 import classes from './RangeDateInputContainer.module.css';
 import { ThemeContext } from "../../../themes/ThemeContext/ThemeContext";
 

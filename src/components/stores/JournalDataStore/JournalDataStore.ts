@@ -2,14 +2,13 @@ import { makeObservable, observable, action } from 'mobx';
 import City from '../../../types/City';
 import axios from 'axios';
 
-class WeatherStore {
+class JournalDataStore {
+  
   weatherData: City | null = null;
-  todayDate: string = '';
 
   constructor() {
     makeObservable(this, {
       weatherData: observable,
-      todayDate: observable,
       fetchData: action
     });
   }
@@ -17,14 +16,12 @@ class WeatherStore {
   fetchData = async (cityName: string) => {
     try {
       setTimeout(async () => {
-        const response = await axios.get(`http://localhost:9000/citiesPastData?name=${cityName}`);
+        const response = await axios.get(`http://localhost:9000/citiesJournalData?name=${cityName}`);
         if (response.data.length > 0) {
           this.weatherData = response.data[0];
-          this.todayDate = '2024-07-07';
         } else {
           console.error('Данные о погоде не найдены', cityName);
           this.weatherData = null;
-          this.todayDate = '';
         }
       }, 0);
     } catch (error) {
@@ -33,4 +30,4 @@ class WeatherStore {
   };
 }
 
-export default new WeatherStore();
+export default new JournalDataStore();

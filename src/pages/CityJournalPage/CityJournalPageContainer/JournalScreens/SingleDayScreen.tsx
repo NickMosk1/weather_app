@@ -2,21 +2,28 @@ import { useState } from "react";
 import SingleDateInputContainer from "../../../../components/other/DateInputContainers/SingleDateInputContainer/SingleDateInputContainer";
 import DayAndNightDataContainer from "../../../../components/other/DayAndNightDataContainer/DayAndNightDataContainer";
 import WeatherChartsContainer from "../../../../components/other/WeatherChartsContainer/WeatherChartsContainer";
-import WeatherStore from "../../../../components/stores/WeatherStore/WeatherStore";
+import WeatherStore from "../../../../components/stores/JournalDataStore/JournalDataStore";
+import DateDataIsNotFoundError from "../../../../components/errorScreens/DateDataIsNotFoundError/DateDataIsNotFoundError";
+import { observer } from "mobx-react";
 
 type ChartType = 'line' | 'bar';
 
-const SingleDayScreen = () => {
+const SingleDayScreen = observer(() => {
 
     const [choosenDate, setChoosenDate] = useState<string>('2024-07-07');
     const {weatherData} = WeatherStore;
     const [selectedOption, setSelectedOption] = useState<string>('temperature');
     
-    if (!weatherData) {return (<div>Данные о погоде в городе не найдены</div>)} 
-    
-    const todayWeather = weatherData.days.find(day => day.datetime === choosenDate);
+    const todayWeather = weatherData? weatherData.days.find(day => day.datetime === choosenDate) : null;
 
-    if (!todayWeather) {return (<div>Данные о погоде на текущую дату не найдены</div>)} 
+    if (!todayWeather) {
+        return(
+            <>
+                <SingleDateInputContainer choosenDate={choosenDate} setChoosenDate={setChoosenDate}/>
+                <DateDataIsNotFoundError/>
+            </>
+        )
+    } 
 
     const chartData = {
         temperature: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.temp })),
@@ -50,7 +57,10 @@ const SingleDayScreen = () => {
         precip: 'bar'
     };
 
-    const sunSetAndRiseData = [{ time: todayWeather.sunrise, epoch: todayWeather.sunriseEpoch }, { time: todayWeather.sunset, epoch: todayWeather.sunsetEpoch }];
+    const sunSetAndRiseData = [
+        {time: todayWeather.sunrise, epoch: todayWeather.sunriseEpoch}, 
+        {time: todayWeather.sunset, epoch: todayWeather.sunsetEpoch}
+    ];
 
     return(
         <>
@@ -66,6 +76,6 @@ const SingleDayScreen = () => {
             <DayAndNightDataContainer sunSetAndRiseData={sunSetAndRiseData} moonPhaseData={todayWeather.moonphase}/>
         </>
     )
-}
+});
 
 export default SingleDayScreen;
