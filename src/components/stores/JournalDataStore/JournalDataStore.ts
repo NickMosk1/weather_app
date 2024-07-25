@@ -4,11 +4,11 @@ import axios from 'axios';
 
 class JournalDataStore {
   
-  weatherData: City | null = null;
+  journalData: City | null = null;
 
   constructor() {
     makeObservable(this, {
-      weatherData: observable,
+      journalData: observable,
       fetchData: action
     });
   }
@@ -18,10 +18,10 @@ class JournalDataStore {
       setTimeout(async () => {
         const response = await axios.get(`http://localhost:9000/citiesJournalData?name=${cityName}`);
         if (response.data.length > 0) {
-          this.weatherData = response.data[0];
+          this.journalData = response.data[0];
         } else {
-          console.error('Данные о погоде не найдены', cityName);
-          this.weatherData = null;
+          console.error('Данные о погоде JournalDataStore не найдены', cityName);
+          this.journalData = null;
         }
       }, 0);
     } catch (error) {

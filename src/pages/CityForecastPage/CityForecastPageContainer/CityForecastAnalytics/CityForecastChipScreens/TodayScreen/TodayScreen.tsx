@@ -1,21 +1,17 @@
 import { useState } from 'react';
-import City from '../../../../../../types/City';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
 import DayAndNightDataContainer from '../../../../../../components/other/DayAndNightDataContainer/DayAndNightDataContainer';
 import CityRoutingContainer from '../../../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
-
-interface TodayScreenProps {
-  weatherData: City;
-  todayDate: string;
-}
+import ForecastDataStore from '../../../../../../components/stores/ForecastDataStore/ForecastDataStore';
 
 type ChartType = 'line' | 'bar';
 
-const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => {
+const TodayScreen = () => {
   
   const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
+  const {forecastData, todayDate} = ForecastDataStore;
 
-  const todayWeather = weatherData.days.find(day => day.datetime === todayDate);
+  const todayWeather = forecastData?.days.find(day => day.datetime === todayDate);
 
   if (!todayWeather) {return (<div>Данные о погоде на текущую дату не найдены</div>)} {/* в будущем добавить обработчик ошибок */}
 
@@ -51,8 +47,11 @@ const TodayScreen: React.FC<TodayScreenProps> = ({ weatherData, todayDate }) => 
     precip: 'bar'
   };
 
-  const sunSetAndRiseData = [{ time: todayWeather.sunrise, epoch: todayWeather.sunriseEpoch }, { time: todayWeather.sunset, epoch: todayWeather.sunsetEpoch }];
-
+  const sunSetAndRiseData = [
+    {time: todayWeather.sunrise, epoch: todayWeather.sunriseEpoch}, 
+    {time: todayWeather.sunset, epoch: todayWeather.sunsetEpoch}
+  ];
+  
   return (
     <>
       <WeatherChartsContainer 

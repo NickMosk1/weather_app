@@ -1,14 +1,9 @@
 import { useState } from 'react';
-import City from '../../../../../../types/City';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
 import CityRoutingContainer from '../../../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
 import Day from '../../../../../../types/Day';
 import Hour from '../../../../../../types/Hour';
-
-interface ThreeDaysScreenProps {
-  weatherData: City;
-  todayDate: string;
-}
+import ForecastDataStore from '../../../../../../components/stores/ForecastDataStore/ForecastDataStore';
 
 type ChartType = 'line' | 'bar';
 
@@ -30,13 +25,14 @@ const getWeatherDataForDate = (weatherData: any, date: string) => {
   return weatherData.days.find((day: any) => day.datetime === date);
 };
 
-const ThreeDaysScreen: React.FC<ThreeDaysScreenProps> = ({ weatherData, todayDate }) => {
+const ThreeDaysScreen= () => {
   
   const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
+  const {forecastData, todayDate} = ForecastDataStore;
 
-  const todayWeather = getWeatherDataForDate(weatherData, todayDate);
-  const secondDayWeather = getWeatherDataForDate(weatherData, getNextDate(todayDate, 1));
-  const thirdDayWeather = getWeatherDataForDate(weatherData, getNextDate(todayDate, 2));
+  const todayWeather = getWeatherDataForDate(forecastData, todayDate);
+  const secondDayWeather = getWeatherDataForDate(forecastData, getNextDate(todayDate, 1));
+  const thirdDayWeather = getWeatherDataForDate(forecastData, getNextDate(todayDate, 2));
 
   const dates = [todayDate, getNextDate(todayDate, 1), getNextDate(todayDate, 2)];
 

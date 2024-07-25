@@ -5,5 +5,14 @@
 
 .buttonContainer{
     margin-bottom: 75px;
-    margin-top: 75px;
+    margin-top: 50px;
+}
+
+.errorContainer{
+    padding-top: 50px;
+    padding-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
 }

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import classes from './CityForecastPageContainer.module.css';
 import CityForecastAnalytics from './CityForecastAnalytics/CityForecastAnalytics';
-import SingleDayCityPreview from './SingleDayCityPreview/SingleDayCityPreview';
+import SingleDayCityPreview from '../../../components/other/SingleDayCityPreview/SingleDayCityPreview';
 import LinearPageLoader from '../../../components/pageLoaders/LinearPageLoader/LinearPageLoader';
 import ForecastDataStore from '../../../components/stores/ForecastDataStore/ForecastDataStore';
 import { observer } from 'mobx-react';
@@ -12,20 +12,29 @@ interface CityForecastPageContainerProps {
 
 const CityForecastPageContainer: React.FC<CityForecastPageContainerProps> = observer(({cityName}) => {
 
-  const {weatherData, todayDate} = ForecastDataStore;
+  const {forecastData, todayDate} = ForecastDataStore;
 
-  useEffect(() => {
-    
-    ForecastDataStore.fetchData(cityName);
-    
+  useEffect(() => { 
+    setTimeout(() => {}, 2000);
+    const millisRemainTillNextHour = (60 - new Date().getMinutes()) * 60 * 1000 - new Date().getSeconds() * 1000 - new Date().getMilliseconds();
+    const timeoutId = setTimeout(() => { 
+      ForecastDataStore.fetchData(cityName);
+      setInterval(() => {ForecastDataStore.fetchData(cityName)}, 60 * 60 * 1000);
+    }, millisRemainTillNextHour);
+    return () => clearTimeout(timeoutId); 
   }, [cityName]);
 
-  if (!weatherData) {return (<LinearPageLoader/>);} 
+  if (!forecastData) {return (<LinearPageLoader/>);} 
 
   return (
     <div className={classes.cityForecastPageContainer}>
-      <SingleDayCityPreview weatherData={weatherData} todayDate={todayDate} />
-      <CityForecastAnalytics weatherData={weatherData} todayDate={todayDate} />
+      <SingleDayCityPreview 
+        weatherData={forecastData} 
+        todayDate={todayDate} 
+        leftColumn={["tempmax", "temp", "tempmin", "pressure"]}
+        rightColumn={["dew", "humidity", "windgust", "preciptype"]}
+      />
+      <CityForecastAnalytics/>
     </div>
   );
 });

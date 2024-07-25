@@ -2,25 +2,25 @@ import { useState } from "react";
 import SingleDateInputContainer from "../../../../components/other/DateInputContainers/SingleDateInputContainer/SingleDateInputContainer";
 import DayAndNightDataContainer from "../../../../components/other/DayAndNightDataContainer/DayAndNightDataContainer";
 import WeatherChartsContainer from "../../../../components/other/WeatherChartsContainer/WeatherChartsContainer";
-import WeatherStore from "../../../../components/stores/JournalDataStore/JournalDataStore";
 import DateDataIsNotFoundError from "../../../../components/errorScreens/DateDataIsNotFoundError/DateDataIsNotFoundError";
 import { observer } from "mobx-react";
+import JournalDataStore from "../../../../components/stores/JournalDataStore/JournalDataStore";
 
 type ChartType = 'line' | 'bar';
 
 const SingleDayScreen = observer(() => {
 
     const [choosenDate, setChoosenDate] = useState<string>('2024-07-07');
-    const {weatherData} = WeatherStore;
+    const {journalData} = JournalDataStore;
     const [selectedOption, setSelectedOption] = useState<string>('temperature');
     
-    const todayWeather = weatherData? weatherData.days.find(day => day.datetime === choosenDate) : null;
+    const todayWeather = journalData? journalData.days.find(day => day.datetime === choosenDate) : null;
 
     if (!todayWeather) {
         return(
             <>
                 <SingleDateInputContainer choosenDate={choosenDate} setChoosenDate={setChoosenDate}/>
-                <DateDataIsNotFoundError/>
+                <DateDataIsNotFoundError additionalData={" на " + choosenDate}/>
             </>
         )
     } 

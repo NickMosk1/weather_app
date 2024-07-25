@@ -5,24 +5,26 @@ import ErrorDetailsContainer from './ErrorDetailsContainer/ErrorDetailsContainer
 import { useContext } from 'react';
 import { ThemeContext } from '../../../components/themes/ThemeContext/ThemeContext';
 
-type ErrorContainerProps = {
-  cityName: string;
-  errorType: string;
+type ErrorTypes = 'cityIsNotFound' | 'dateDataIsNotFound' | 'incorrectInput';
+
+interface ErrorContainerProps{
+  additionalData: string;
+  errorType: ErrorTypes;
 };
 
-const ErrorContainer: React.FC<ErrorContainerProps> = ({ errorType, cityName }) => {
+const ErrorContainer: React.FC<ErrorContainerProps> = ({ errorType, additionalData }) => {
 
     const {darkMode} = useContext(ThemeContext);
-
+    
     return (
-      <>
-        <ErrorDetailsContainer errorType={errorType} cityName={cityName}/>
+      <div className={classes.errorContainer}>
+        <ErrorDetailsContainer errorType={errorType} additionalData={additionalData}/>
         <div className={classes.buttonContainer}>
           <RoutingButton darkMode={darkMode}>
             <Link to="/" className={classes.routingButtonText}> Вернуться к начальной странице </Link>
           </RoutingButton>
         </div>
-      </>
+      </div>
     );
 };
   

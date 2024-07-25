@@ -1,5 +1,4 @@
 import { Paper } from '@mui/material';
-import City from '../../../../types/City';
 import TodayScreen from './CityForecastChipScreens/TodayScreen/TodayScreen';
 import ThreeDaysScreen from './CityForecastChipScreens/ThreeDaysScreen/ThreeDaysScreen';
 import WeekScreen from './CityForecastChipScreens/WeekScreen/WeekScreen';
@@ -8,30 +7,28 @@ import { useEffect, useState } from 'react';
 import MyChipBar from '../../../../components/other/MyChipBar/MyChipBar';
 import { useNavigate } from 'react-router-dom';
 import JournalDataStore from '../../../../components/stores/JournalDataStore/JournalDataStore';
-
-interface CityForecastAnalyticsProps {
-  weatherData: City;
-  todayDate: string;
-}
+import { observer } from 'mobx-react';
+import ForecastDataStore from '../../../../components/stores/ForecastDataStore/ForecastDataStore';
 
 interface ChipData {
   label: string;
   value: string;
 }
 
-const CityForecastAnalytics: React.FC<CityForecastAnalyticsProps> = ({ weatherData, todayDate }) => {
+const CityForecastAnalytics = observer(() => {
   
   const [selectedOption, setSelectedOption] = useState<string>('today');
   const navigate = useNavigate();
+  const {forecastData} = ForecastDataStore;
+  const cityName = forecastData ? forecastData.name : "error";
+  JournalDataStore.fetchData(cityName); 
   
   useEffect(() => {
-    const cityName = weatherData.name;
-    JournalDataStore.fetchData(cityName);
-    if (selectedOption === 'weatherJournal' && JournalDataStore.weatherData !== null) {
-      navigate(`/cityJournal`, { state: { cityName } });
+    if (selectedOption === 'weatherJournal' && JournalDataStore.journalData !== null) {
+      navigate(`/cityJournal`, {state: {cityName}});
     }
-    if (selectedOption === 'weatherJournal' && JournalDataStore.weatherData === null){
-      navigate(`/error`, { state: { cityName, errorType: "cityIsNotFound" }}); //вот тут поправить тип ошибки надо
+    if (selectedOption === 'weatherJournal' && JournalDataStore.journalData === null){
+      navigate(`/error`, {state: {additionalData: " за все время", errorType: "dateDataIsNotFound"}});
     }
   }, [selectedOption]);
 
@@ -48,14 +45,14 @@ const CityForecastAnalytics: React.FC<CityForecastAnalyticsProps> = ({ weatherDa
       <Paper style={{ backgroundColor: 'unset', boxShadow: 'unset', textAlign: 'center' }}>
         <MyChipBar selectedOption={selectedOption} setSelectedOption={setSelectedOption} chips={chips} />
         <>
-          {selectedOption === 'today' && <TodayScreen weatherData={weatherData} todayDate={todayDate} />}
-          {selectedOption === 'threeDays' && <ThreeDaysScreen weatherData={weatherData} todayDate={todayDate} />}
-          {selectedOption === 'week' && <WeekScreen weatherData={weatherData} todayDate={todayDate} />}
-          {selectedOption === 'twoWeek' && <TwoWeeksScreen weatherData={weatherData} todayDate={todayDate} />}
+          {selectedOption === 'today' && <TodayScreen/>}
+          {selectedOption === 'threeDays' && <ThreeDaysScreen />}
+          {selectedOption === 'week' && <WeekScreen/>}
+          {selectedOption === 'twoWeek' && <TwoWeeksScreen/>}
         </>
       </Paper>
     </>
   );
-};
+});
 
 export default CityForecastAnalytics;

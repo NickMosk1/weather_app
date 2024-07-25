@@ -42,11 +42,12 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder, darkMode
     if (event.key === 'Enter') {
       if (cityDataIsLoaded(event.currentTarget.value)) {
         ForecastDataStore.fetchData(cityName);
-        navigate(`/cityForecast`, { state: { cityName } });
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        navigate(`/cityForecast`, { state: { cityName } });
         setCityName('');
       } else {
-        navigate(`/error`, { state: { cityName, errorType: "cityIsNotFound" }});
+        const additionalData = cityName;
+        navigate(`/error`, { state: { additionalData, errorType: "cityIsNotFound" }});
         setCityName('');
       }
     }

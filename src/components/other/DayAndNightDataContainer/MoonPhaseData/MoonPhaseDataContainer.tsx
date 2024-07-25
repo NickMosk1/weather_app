@@ -21,7 +21,6 @@ const getMoonPhaseName = (phase: number): string => {
 const MoonPhaseDataContainer: React.FC<MoonPhaseDataContainerProps> = ({ moonPhaseData }) => {
   
   const {darkMode} = useContext(ThemeContext);
-
   const moonPhaseName = getMoonPhaseName(moonPhaseData);
 
   return (

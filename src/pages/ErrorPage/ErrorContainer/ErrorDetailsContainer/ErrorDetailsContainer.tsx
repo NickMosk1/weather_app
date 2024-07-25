@@ -1,24 +1,34 @@
-import ErrorImage from './ErrorImage/ErrorImage';
-import classes from './ErrorDetailsContainer.module.css';
-import { useContext } from 'react';
-import { ThemeContext } from '../../../../components/themes/ThemeContext/ThemeContext';
+import CityIsNotFoundError from "../../../../components/errorScreens/CityIsNotFoundError/CityIsNotFoundError";
+import DateDataIsNotFoundError from "../../../../components/errorScreens/DateDataIsNotFoundError/DateDataIsNotFoundError";
+import IncorrectInputError from "../../../../components/errorScreens/IncorrectInputError/IncorrectInputError";
 
-type ErrorDetailsContainerProps = {
-    cityName: string;
-    errorType: string;
+interface ErrorDetailsContainerProps{
+    additionalData: string;
+    errorType: ErrorTypes;
 };
 
-type ErrorTypes = 'cityIsNotFound' | 'dateDataIsNotFound';
+type ErrorTypes = 'cityIsNotFound' | 'dateDataIsNotFound' | 'incorrectInput';
 
-const ErrorDetailsContainer: React.FC<ErrorDetailsContainerProps> = ({ errorType, cityName }) => {
+const getErrorComponent = (errorType: 'cityIsNotFound' | 'dateDataIsNotFound' | 'incorrectInput'): React.ElementType => {
+    switch (errorType) {
+        case 'cityIsNotFound':
+            return CityIsNotFoundError;
+        case 'dateDataIsNotFound':
+            return DateDataIsNotFoundError;
+        case 'incorrectInput':
+            return IncorrectInputError;
+        default:
+            throw new Error('Unknown error type');
+    }
+};
 
-    const {darkMode} = useContext(ThemeContext);
+const ErrorDetailsContainer: React.FC<ErrorDetailsContainerProps> = ({ errorType, additionalData }) => {
 
+    const ErrorComponent = getErrorComponent(errorType);
+    
     return (
         <>
-            <div className={classes.errorMessage}> Упс... Кажется, данных о погоде <br/> в городе {cityName} у нас нет. </div>
-            <ErrorImage/>
-            <div className={`${classes.errorMessageDetails} ${darkMode && classes['errorMessageDetails--dark']}`}> Возможно, такого города не существует. <br/> Попробуйте исправить поисковой запрос. </div>
+            <ErrorComponent additionalData={additionalData}/>
         </>
     );
 };

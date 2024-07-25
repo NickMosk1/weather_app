@@ -9,26 +9,27 @@ const calculateCityDate = (tzoffset: number): string => {
 
 class ForecastDataStore {
   
-  weatherData: City | null = null;
+  forecastData: City | null = null;
   todayDate: string = '';
 
   constructor() {
     makeObservable(this, {
-      weatherData: observable,
+      forecastData: observable,
       todayDate: observable,
       fetchData: action,
     });
   }
 
   fetchData = async (cityName: string) => {
+    setTimeout(() => {}, 2000);
     try {
       const response = await axios.get(`http://localhost:8000/citiesForecastData?name=${cityName}`);
       if (response.data.length > 0) {
-        this.weatherData = response.data[0];
+        this.forecastData = response.data[0];
         this.todayDate = calculateCityDate(response.data[0].tzoffset);
       } else {
         console.error('Данные о погоде не найдены', cityName);
-        this.weatherData = null;
+        this.forecastData = null;
         this.todayDate = '';
       }
     } catch (error) {

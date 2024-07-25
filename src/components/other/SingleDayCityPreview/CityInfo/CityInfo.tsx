@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import Clock from '../../../../../components/other/Clock/Clock';
+import Clock from '../../Clock/Clock';
 import classes from './CityInfo.module.css';
-import { ThemeContext } from '../../../../../components/themes/ThemeContext/ThemeContext';
+import { ThemeContext } from '../../../themes/ThemeContext/ThemeContext';
 
 interface CityInfoProps {
   cityInfoData: [string, string, number]; // название города, подробный адрес, смещение по часовому поясу

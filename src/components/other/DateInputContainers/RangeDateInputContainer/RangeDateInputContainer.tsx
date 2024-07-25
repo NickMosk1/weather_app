@@ -13,13 +13,13 @@ interface RangeDateInputContainerProps{
 
 const RangeDateInputContainer: React.FC<RangeDateInputContainerProps> = ({startDate, setStartDate, endDate, setEndDate}) => {
 
-    const {weatherData} = WeatherStore;
+    const {journalData} = WeatherStore;
     const {darkMode} = useContext(ThemeContext);
 
     return(
         <div className={classes.rangeDateInputContainer}>
             <div className={classes.choosenDateTitle}>
-                Погода в {weatherData !== null && weatherData.name} с {startDate} по {endDate}:
+                Погода в {journalData !== null && journalData.name} с {startDate} по {endDate}:
             </div>
             <div className={`${classes.choosenDateTitleDetails} ${darkMode && classes['choosenDateTitleDetails--dark']}`}>
                 Откройте для себя новые возможности и узнайте, как изменилась погода за последние дни, месяцы или даже годы. 

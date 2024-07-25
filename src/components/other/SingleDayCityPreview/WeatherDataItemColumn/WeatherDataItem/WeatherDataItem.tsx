@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ThemeContext } from '../../../../../../components/themes/ThemeContext/ThemeContext';
+import { ThemeContext } from '../../../../themes/ThemeContext/ThemeContext';
 import classes from './WeatherDataItem.module.css';
 
 type PrecipType = 'rain' | 'snow' | null;

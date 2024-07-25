@@ -1,5 +1,5 @@
 import React from 'react';
-import Day from '../../../../../types/Day';
+import Day from '../../../../types/Day';
 import classes from './WeatherDataItemColumn.module.css';
 import WeatherDataItem from './WeatherDataItem/WeatherDataItem';
 

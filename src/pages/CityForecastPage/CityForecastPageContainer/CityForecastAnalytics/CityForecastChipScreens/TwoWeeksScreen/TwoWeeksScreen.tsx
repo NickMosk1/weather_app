@@ -3,11 +3,7 @@ import City from '../../../../../../types/City';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
 import CityRoutingContainer from '../../../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
 import Day from '../../../../../../types/Day';
-
-interface WeekScreenProps {
-  weatherData: City;
-  todayDate: string;
-}
+import ForecastDataStore from '../../../../../../components/stores/ForecastDataStore/ForecastDataStore';
 
 type ChartType = 'line' | 'bar';
 
@@ -23,16 +19,19 @@ const generateChartData = (weatherData: City, key: string, startDate: string) =>
   }));
 };
 
-const WeekScreen: React.FC<WeekScreenProps> = ({ weatherData, todayDate }) => {
+const WeekScreen = () => {
   
   const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
+  const {forecastData, todayDate} = ForecastDataStore;
+
+  if(!forecastData) {return (<>Ошибка в поиске данных</>)};
 
   const chartData = {
-    temperature: generateChartData(weatherData, 'temp', todayDate),
-    wind: generateChartData(weatherData, 'windspeed', todayDate),
-    humidity: generateChartData(weatherData, 'humidity', todayDate),
-    pressure: generateChartData(weatherData, 'pressure', todayDate),
-    precip: generateChartData(weatherData, 'precip', todayDate)
+    temperature: generateChartData(forecastData, 'temp', todayDate),
+    wind: generateChartData(forecastData, 'windspeed', todayDate),
+    humidity: generateChartData(forecastData, 'humidity', todayDate),
+    pressure: generateChartData(forecastData, 'pressure', todayDate),
+    precip: generateChartData(forecastData, 'precip', todayDate)
   };
 
   const chips = [

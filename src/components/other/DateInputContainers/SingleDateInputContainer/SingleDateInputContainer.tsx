@@ -11,13 +11,13 @@ interface SingleDateInputContainerProps {
 
 const SingleDateInputContainer: React.FC<SingleDateInputContainerProps> = ({choosenDate, setChoosenDate}) => {
 
-    const {weatherData} = WeatherStore;
+    const {journalData} = WeatherStore;
     const {darkMode} = useContext(ThemeContext);
     
     return(
         <div className={classes.singleDateInputContainer}>
             <div className={classes.choosenDateTitle}>
-                Погода в {weatherData !== null && weatherData.name} на {choosenDate}:
+                Погода в {journalData !== null && journalData.name} на {choosenDate}:
             </div>
             <div className={`${classes.choosenDateTitleDetails} ${darkMode && classes['choosenDateTitleDetails--dark']}`}>
                 Откройте для себя новые возможности и узнайте, как изменилась погода за последние дни, месяцы или даже годы. 

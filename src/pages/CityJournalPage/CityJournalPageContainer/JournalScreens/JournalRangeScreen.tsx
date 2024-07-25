@@ -6,24 +6,11 @@ import WeatherChartsContainer from "../../../../components/other/WeatherChartsCo
 import RangeDateInputContainer from "../../../../components/other/DateInputContainers/RangeDateInputContainer/RangeDateInputContainer";
 import DateDataIsNotFoundError from "../../../../components/errorScreens/DateDataIsNotFoundError/DateDataIsNotFoundError";
 import { observer } from "mobx-react";
+import IncorrectInputError from "../../../../components/errorScreens/IncorrectInputError/IncorrectInputError";
 
 type ChartType = 'line' | 'bar';
 
-const generateChartData = (weatherData: City | null, paramName: string, startDate: string, endDate: string) => {
-
-    if(!weatherData){
-        console.error(`Данные weatherData не найдены`);
-        return [];
-    }
-    
-    const startIndex = weatherData.days.findIndex((day: Day) => day.datetime === startDate);
-    const endIndex = weatherData.days.findIndex((day: Day) => day.datetime === endDate);
-
-    if (endIndex === -1 || startIndex === -1 || startIndex > endIndex) {
-        console.error(`Дата ${startDate} не найдена в данных weatherData`);
-        return [];
-    }
-
+const generateChartData = (weatherData: City, paramName: string, startIndex: number, endIndex: number) => {
     return weatherData.days.slice(startIndex, endIndex + 1).map((day: Day) => ({
         time: day.datetime.slice(5),
         value: day[paramName],
@@ -32,17 +19,40 @@ const generateChartData = (weatherData: City | null, paramName: string, startDat
 
 const JournalRangeScreen = observer(() => {
 
-    const {weatherData} = JournalDataStore;
+    const {journalData} = JournalDataStore;
     const [startDate, setStartDate] = useState<string>('2024-07-07');
     const [endDate, setEndDate] = useState<string>('2024-07-21');
     const [selectedOption, setSelectedOption] = useState<string>('temperature');
     
+    if(!journalData){return(<>теоретически невозможный исход</>)}
+
+    const startIndex = journalData.days.findIndex((day: Day) => day.datetime === startDate);
+    const endIndex = journalData.days.findIndex((day: Day) => day.datetime === endDate);
+    
+    if(Date.parse(startDate) > Date.parse(endDate)){
+        return(
+            <>
+                <RangeDateInputContainer startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}/>
+                <IncorrectInputError additionalData={" от " + startDate + " до " + endDate}/>
+            </>
+        )
+    }
+
+    if(startIndex === -1 || endIndex === -1){
+        return(
+            <>
+                <RangeDateInputContainer startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}/>
+                <DateDataIsNotFoundError additionalData={" с " + startDate + " по " + endDate}/>
+            </>
+        )
+    }
+
     const chartData = {
-        temperature: generateChartData(weatherData, 'temp', startDate, endDate),
-        wind: generateChartData(weatherData, 'windspeed', startDate, endDate),
-        humidity: generateChartData(weatherData, 'humidity', startDate, endDate),
-        pressure: generateChartData(weatherData, 'pressure', startDate, endDate),
-        precip: generateChartData(weatherData, 'precip', startDate, endDate)
+        temperature: generateChartData(journalData, 'temp', startIndex, endIndex),
+        wind: generateChartData(journalData, 'windspeed', startIndex, endIndex),
+        humidity: generateChartData(journalData, 'humidity', startIndex, endIndex),
+        pressure: generateChartData(journalData, 'pressure', startIndex, endIndex),
+        precip: generateChartData(journalData, 'precip', startIndex, endIndex)
     };
     
     const chips = [
@@ -72,7 +82,6 @@ const JournalRangeScreen = observer(() => {
     return(
         <>
             <RangeDateInputContainer startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}/>
-            {chartData.temperature.length? 
             <WeatherChartsContainer 
                 selectedOption={selectedOption} 
                 setSelectedOption={setSelectedOption} 
@@ -81,9 +90,6 @@ const JournalRangeScreen = observer(() => {
                 unitNames={unitNames}
                 chartType={chartTypes[selectedOption as keyof typeof chartTypes]} 
             />
-            :
-            <DateDataIsNotFoundError/>
-            }
         </>
     )
 });

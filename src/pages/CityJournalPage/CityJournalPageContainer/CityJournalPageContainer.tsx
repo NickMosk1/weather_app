@@ -7,6 +7,7 @@ import SingleDayScreen from "./JournalScreens/SingleDayScreen";
 import JournalDataStore from "../../../components/stores/JournalDataStore/JournalDataStore";
 import classes from './CityJournalPageContainer.module.css';
 import { observer } from "mobx-react";
+import LinearPageLoader from "../../../components/pageLoaders/LinearPageLoader/LinearPageLoader";
 
 interface ChipData {
   label: string;
@@ -16,13 +17,14 @@ interface ChipData {
 const CityJournalPageContainer = observer(() => {
   
   const [selectedOption, setSelectedOption] = useState<string>('singleDay');
-  const {weatherData} = JournalDataStore;
+  const {journalData} = JournalDataStore;
   const navigate = useNavigate();
   
   useEffect(() => {
-    if (selectedOption === 'backToForecast' && weatherData !== null) {
-      const cityName = weatherData.name;
-      navigate(`/cityForecast`, { state: { cityName } });
+    if (selectedOption === 'backToForecast') {
+      const cityName = journalData?.name;
+      JournalDataStore.journalData = null;
+      navigate(`/cityForecast`, {state: {cityName}});
     }
   }, [selectedOption]);
 
@@ -31,6 +33,8 @@ const CityJournalPageContainer = observer(() => {
     { label: 'Аналитика диапазона', value: 'journalRange' },
     { label: 'Обратно к прогнозу', value: 'backToForecast' }
   ];
+  
+  if (!journalData) {return (<LinearPageLoader/>);} 
 
   return (
     <div className={classes.cityJournalPageContainer}>
