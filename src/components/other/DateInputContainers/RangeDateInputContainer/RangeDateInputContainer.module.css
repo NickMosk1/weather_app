@@ -1,0 +1,36 @@
+.rangeDateInputContainer{    
+    display: flex;
+    flex-direction: column;
+}
+
+.choosenDateTitle{
+    color: #007bff;
+    font-weight: 900;
+    font-size: 200%;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.choosenDateTitleDetails{
+    color: #333;
+    font-weight: 100;
+    font-size: 130%;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.choosenDateTitleDetails--dark{
+    color: #bbbbbb;
+}
+
+.dateInputContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 15%;
+    padding-right: 15%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

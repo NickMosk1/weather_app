@@ -30,7 +30,7 @@ const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
         } else {
           console.error('Данные о погоде не найдены');
         }
-      }, 0); 
+      }, 1000); 
     } catch (error) {
       console.error('Ошибка при получении данных о погоде:', error);
     }
@@ -38,7 +38,7 @@ const CityPageContainer: React.FC<CityPageContainerProps> = ({ cityName }) => {
 
   useEffect(() => {
     setWeatherData(null);
-    setTimeout(() => {}, 0);
+    setTimeout(() => {}, 1000);
     fetchData();
     const millisRemainTillNextHour = (60 - new Date().getMinutes()) * 60 * 1000 - new Date().getSeconds() * 1000 - new Date().getMilliseconds();
     const timeoutId = setTimeout(() => { {/* устанавливаем таймер до наступления следующего часа, как только он отработал, ставим интервал для запроса данных в каждый час */}

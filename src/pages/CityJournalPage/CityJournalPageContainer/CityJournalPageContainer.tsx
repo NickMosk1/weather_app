@@ -5,6 +5,8 @@ import MyChipBar from "../../../components/other/MyChipBar/MyChipBar";
 import JournalRangeScreen from "./JournalScreens/JournalRangeScreen";
 import WeatherStore from "../../../components/stores/WeatherStore/WeatherStore";
 import LinearPageLoader from "../../../components/pageLoaders/LinearPageLoader/LinearPageLoader";
+import classes from './CityJournalPageContainer.module.css';
+import SingleDayScreen from "./JournalScreens/SingleDayScreen";
 
 interface ChipData {
   label: string;
@@ -13,10 +15,8 @@ interface ChipData {
 
 const CityJournalPageContainer = () => {
   
-  const [selectedOption, setSelectedOption] = useState<string>('journalRange');
-  
-  const { weatherData, todayDate } = WeatherStore;
-
+  const [selectedOption, setSelectedOption] = useState<string>('singleDay');
+  const { weatherData } = WeatherStore;
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -27,24 +27,23 @@ const CityJournalPageContainer = () => {
   }, [selectedOption]);
 
   const chips: ChipData[] = [
-    { label: 'Аналитика диапазона', value: 'journalRange' },
     { label: 'Данные конкретной даты', value: 'singleDay' },
+    { label: 'Аналитика диапазона', value: 'journalRange' },
     { label: 'Обратно к прогнозу', value: 'backToForecast' }
   ];
   
   if (!weatherData) {return (<LinearPageLoader/>);} 
 
   return (
-    <>
+    <div className={classes.cityJournalPageContainer}>
       <Paper style={{ backgroundColor: 'unset', boxShadow: 'unset', textAlign: 'center' }}>
         <MyChipBar selectedOption={selectedOption} setSelectedOption={setSelectedOption} chips={chips} />
         <div >
+          {selectedOption === 'singleDay' && <SingleDayScreen/>}
           {selectedOption === 'journalRange' && <JournalRangeScreen/>}
-          {selectedOption === 'singleDay' && <div>один день</div>}
-          {selectedOption === 'backToForecast' && <div>вернуться назад на страницу форкаста</div>}
         </div>
       </Paper>
-    </>
+    </div>
   );
 };
 
