@@ -21,7 +21,7 @@ const CityForecastAnalytics = observer(() => {
   const navigate = useNavigate();
   const {forecastData} = ForecastDataStore;
   const cityName = forecastData ? forecastData.name : "error";
-  JournalDataStore.fetchData(cityName); 
+  JournalDataStore.fetchData(cityName); // тут сразу при рендере форкаста вылетает ошибка в консоль, если нет данных журнала
   
   useEffect(() => {
     if (selectedOption === 'weatherJournal' && JournalDataStore.journalData !== null) {

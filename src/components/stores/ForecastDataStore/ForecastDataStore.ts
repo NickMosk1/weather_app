@@ -27,6 +27,7 @@ class ForecastDataStore {
       if (response.data.length > 0) {
         this.forecastData = response.data[0];
         this.todayDate = calculateCityDate(response.data[0].tzoffset);
+        console.log('загрузились данные о ', cityName);
       } else {
         console.error('Данные о погоде не найдены', cityName);
         this.forecastData = null;

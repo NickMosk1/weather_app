@@ -1,0 +1,30 @@
+.prevInputLSButtonContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 75px;
+    padding-bottom: 75px;
+}
+
+.recordsTitle{
+    color: #333;
+    font-weight: 100;
+    font-size: 130%;
+    margin-bottom: 75px;
+    text-align: center;
+}
+
+.recordsTitle--dark{
+    color: #bbbbbb;
+}
+
+.recordsNotFoundWarning{
+    color: #333;
+    font-weight: 100;
+    font-size: 130%;
+    text-align: center;
+}
+
+.recordsNotFoundWarning--dark{
+    color: #bbbbbb;
+}

@@ -3,9 +3,12 @@ import SearchCityInput from '../../../components/forms/Inputs/SearchCityInput/Se
 import PreferencesContainer from './PreferenceContainer/PreferencesContainer';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../components/themes/ThemeContext/ThemeContext';
+import PrevInputLSButtonContainer from '../../../components/routingContainers/PrevInputLSButtonContainer/PrevInputLSButtonContainer';
 
 const HomePageInfoContainer = () => {
+    
     const {darkMode} = useContext(ThemeContext);
+
     return (
         <>
             <div className={classes.welcomeQuote}> Добро пожаловать в MyMeteo! </div> 
@@ -19,8 +22,9 @@ const HomePageInfoContainer = () => {
                 Начните пользоваться уже сейчас! Бесплатно!
             </div>
             <div className={classes.searchCityInputContainer}>
-                <SearchCityInput placeholder="Введите название города" darkMode={darkMode}/>
+                <SearchCityInput placeholder="Введите название города"/>
             </div>
+            <PrevInputLSButtonContainer recordShown={3}/> {/* можно регулировать количество готовых ссылок */}
         </>
     );
 };

@@ -1,19 +1,20 @@
-import { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import { useState, useEffect, ChangeEvent, KeyboardEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import classes from './SearchCityInput.module.css';
 import City from '../../../../types/City';
 import ForecastDataStore from '../../../stores/ForecastDataStore/ForecastDataStore';
+import { ThemeContext } from '../../../themes/ThemeContext/ThemeContext';
 
 interface SearchCityInputProps {
   placeholder: string;
-  darkMode: boolean;
 }
 
-const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder, darkMode }) => {
+const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
 
   const [cityName, setCityName] = useState('');
   const [availableCities, setAvailableCities] = useState<string[]>([]);
+  const {darkMode} = useContext(ThemeContext);
   const navigate = useNavigate(); 
 
   useEffect(() => {
@@ -37,10 +38,24 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder, darkMode
   const cityDataIsLoaded = (cityName: string) => {
     return availableCities.includes(cityName);
   };
+
+  const saveInputToLocalStorage = (inputData: string) => {
+    let prevInputs = JSON.parse(localStorage.getItem("prevInputs") || "[]");
+    const index = prevInputs.indexOf(inputData);
+    if (index !== -1) {
+        prevInputs.splice(index, 1);
+    }
+    prevInputs.unshift(inputData);
+    if (prevInputs.length > 5) { // максимум 5 названий реальных городов можно сохранить, ну опционально :)
+        prevInputs = prevInputs.slice(0, 5);
+    }
+    localStorage.setItem("prevInputs", JSON.stringify(prevInputs));
+  }
   
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       if (cityDataIsLoaded(event.currentTarget.value)) {
+        saveInputToLocalStorage(cityName);
         ForecastDataStore.fetchData(cityName);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         navigate(`/cityForecast`, { state: { cityName } });

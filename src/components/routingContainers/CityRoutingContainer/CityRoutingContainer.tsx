@@ -19,7 +19,7 @@ const CityRoutingContainer = () => {
         Попробуйте прямо сейчас! <br/>
         Бесплатно!
       </div>
-      <SearchCityInput placeholder="Введите название города" darkMode={darkMode}/>
+      <SearchCityInput placeholder="Введите название города"/>
     </div>
   );
 };
