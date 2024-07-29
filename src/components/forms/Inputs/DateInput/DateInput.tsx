@@ -8,33 +8,33 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 interface DateInputProps {
-  choosenDate: string;
-  setChoosenDate: (date: string) => void;
+    choosenDate: string;
+    setChoosenDate: (date: string) => void;
 }
 
 const DateInput: React.FC<DateInputProps> = ({ choosenDate, setChoosenDate }) => {
-  const { darkMode } = useContext(ThemeContext);
+    const { darkMode } = useContext(ThemeContext);
 
-  const handleInputChange = (date: dayjs.Dayjs | null) => {
-    if (date) {
-      setChoosenDate(date.format('YYYY-MM-DD'));
-    } else {
-      setChoosenDate('');
-    }
-  };
+    const handleInputChange = (date: dayjs.Dayjs | null) => {
+        if (date) {
+            setChoosenDate(date.format('YYYY-MM-DD'));
+        } else {
+            setChoosenDate('');
+        }
+    };
 
-  return (
-    <DateInputStyled darkMode={darkMode}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoItem>
-          <DatePicker
-            defaultValue={dayjs(choosenDate)}
-            onChange={handleInputChange}
-          />
-        </DemoItem>
-      </LocalizationProvider>
-    </DateInputStyled>
-  );
+    return (
+        <DateInputStyled darkMode={darkMode}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoItem>
+                    <DatePicker
+                        defaultValue={dayjs(choosenDate)}
+                        onChange={handleInputChange}
+                    />
+                </DemoItem>
+            </LocalizationProvider>
+        </DateInputStyled>
+    );
 };
 
 export default DateInput;

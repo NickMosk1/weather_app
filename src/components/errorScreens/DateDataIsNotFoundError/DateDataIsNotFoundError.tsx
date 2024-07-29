@@ -7,7 +7,7 @@ interface DateDataIsNotFoundErrorProps{
     additionalData: string;
 }
 
-const DateDataIsNotFoundError: React.FC<DateDataIsNotFoundErrorProps> = ({additionalData}) => {
+const DateDataIsNotFoundError: React.FC<DateDataIsNotFoundErrorProps> = ({ additionalData }) => {
 
     const {darkMode} = useContext(ThemeContext);
 
@@ -15,10 +15,7 @@ const DateDataIsNotFoundError: React.FC<DateDataIsNotFoundErrorProps> = ({additi
         <DateDataIsNotFoundErrorWrapper>
             <ErrorMessage> Упс... Кажется, данных о погоде <br/> за выбранный период у нас нет! </ErrorMessage>
             <ErrorImage src={DateDataIsNotFoundErrorImage} alt="DateDataIsNotFound"/>
-            {darkMode ? 
-            <DarkModeErrorMessageDetails> В скором времени постараемся <br/> снабдить вас погодными данными {additionalData}. </DarkModeErrorMessageDetails> 
-            : 
-            <ErrorMessageDetails> В скором времени постараемся <br/> снабдить вас погодными данными {additionalData}. </ErrorMessageDetails>}
+            <ErrorMessageDetails darkMode={darkMode}> В скором времени постараемся <br/> снабдить вас погодными данными {additionalData}. </ErrorMessageDetails>
         </DateDataIsNotFoundErrorWrapper>
     );
 }
@@ -32,8 +29,8 @@ const DateDataIsNotFoundErrorWrapper = styled.div`
 `;
 
 const ErrorMessage = styled.div`
-    margin-top: 30px;
-    margin-bottom: 45px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     color: #007bff;
     font-size: 300%;
     font-weight: 900;
@@ -43,19 +40,15 @@ const ErrorMessage = styled.div`
 const ErrorImage = styled.img`
     width: 250px;
     height: 250px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 `;
 
-const ErrorMessageDetails = styled.div`
-    margin-top: 45px;
-    margin-bottom: 30px;
-    color: #333;
+const ErrorMessageDetails = styled.div<{darkMode: boolean}>`
+    margin-top: 40px;
+    margin-bottom: 40px;
+    color: ${(props) => (props.darkMode ? "#bbbbbb" : "#333")};
     font-weight: 100;
     font-size: 130%;
     text-align: center;
-`;
-
-const DarkModeErrorMessageDetails = styled(ErrorMessageDetails)`
-    color: #bbbbbb;
 `;

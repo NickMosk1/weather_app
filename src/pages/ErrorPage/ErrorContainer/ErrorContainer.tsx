@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import ErrorDetailsContainer from './ErrorDetailsContainer/ErrorDetailsContainer';
 import RoutingHomeButton from '../../../components/buttons/RoutingHomeButton/RoutingHomeButton';
 import styled from '@emotion/styled';
+import PrevInputLSButtonContainer from '../../../components/routingContainers/PrevInputLSButtonContainer/PrevInputLSButtonContainer';
 
 type ErrorTypes = 'cityIsNotFound' | 'dateDataIsNotFound' | 'incorrectInput';
 
@@ -19,6 +20,7 @@ const ErrorContainer: React.FC<ErrorContainerProps> = ({ errorType, additionalDa
                     <Link to="/" style={{textDecoration: "none", color: "inherit"}}> Вернуться к начальной странице </Link> {/* по другому не получается стилиховать :( */}
                 </RoutingHomeButton>
             </ButtonContainer>
+            <PrevInputLSButtonContainer recordShown={3}/>
         </ErrorContainerWrapper>
     );
 };
@@ -26,13 +28,11 @@ const ErrorContainer: React.FC<ErrorContainerProps> = ({ errorType, additionalDa
 export default ErrorContainer;
 
 const ButtonContainer = styled.div`
-    margin-bottom: 75px;
-    margin-top: 50px;
+    margin-top: 40px;
 `;
 
 const ErrorContainerWrapper = styled.div`
     padding-top: 50px;
-    padding-bottom: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;

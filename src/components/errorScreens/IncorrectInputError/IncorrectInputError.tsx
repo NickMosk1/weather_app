@@ -7,7 +7,7 @@ interface IncorrectInputErrorProps{
     additionalData: string;
 }
 
-const IncorrectInputError: React.FC<IncorrectInputErrorProps> = ({additionalData}) => {
+const IncorrectInputError: React.FC<IncorrectInputErrorProps> = ({ additionalData }) => {
 
     const {darkMode} = useContext(ThemeContext);
 
@@ -15,10 +15,9 @@ const IncorrectInputError: React.FC<IncorrectInputErrorProps> = ({additionalData
         <IncorrectInputErrorWrapper>
             <ErrorMessage> Чел ааа, данные ввода некорректны! </ErrorMessage>
             <ErrorImage src={IncorrectInputErrorImage} alt="IncorrectInput"/>
-            {darkMode ? 
-            <DarkModeErrorMessageDetails> Время не может идти вспять. <br/> Перепроверьте точность выбранных границ диапазона {additionalData}. </DarkModeErrorMessageDetails> 
-            : 
-            <ErrorMessageDetails> Время не может идти вспять. <br/> Перепроверьте точность выбранных границ диапазона {additionalData}. </ErrorMessageDetails>}
+            <ErrorMessageDetails darkMode={darkMode}> 
+                Время не может идти вспять. <br/> Перепроверьте точность выбранных границ диапазона {additionalData}. 
+            </ErrorMessageDetails>
         </IncorrectInputErrorWrapper>
     );
 }
@@ -32,8 +31,8 @@ const IncorrectInputErrorWrapper = styled.div`
 `;
 
 const ErrorMessage = styled.div`
-    margin-top: 30px;
-    margin-bottom: 45px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     color: #007bff;
     font-size: 300%;
     font-weight: 900;
@@ -43,19 +42,15 @@ const ErrorMessage = styled.div`
 const ErrorImage = styled.img`
     width: 250px;
     height: 250px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 `;
 
-const ErrorMessageDetails = styled.div`
-    margin-top: 45px;
-    margin-bottom: 30px;
-    color: #333;
+const ErrorMessageDetails = styled.div<{darkMode: boolean}>`
+    margin-top: 40px;
+    margin-bottom: 40px;
+    color: ${(props) => (props.darkMode ? "#bbbbbb" : "#333")};
     font-weight: 100;
     font-size: 130%;
     text-align: center;
-`;
-
-const DarkModeErrorMessageDetails = styled(ErrorMessageDetails)`
-    color: #bbbbbb;
 `;

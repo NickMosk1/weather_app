@@ -17,26 +17,24 @@ class JournalDataStore {
     fetchJournalData = async (cityName: string) => {
         try {
             await new Promise<void>((resolve) => {
-                setTimeout(() => {
-                    axios.get(`http://localhost:9000/citiesJournalData?name=${cityName}`)
-                        .then((response) => {
-                            if (response.data.length > 0) {
-                                this.journalData = response.data[0];
-                                console.log('в журнал стор загрузились данные о', cityName);
-                            } else {
-                                console.error('Данные о погоде JournalDataStore не найдены', cityName);
-                                this.journalData = null;
-                            }
-                            resolve();
-                        })
-                        .catch((error) => {
-                            console.error('Ошибка при получении данных о погоде:', error);
-                            resolve();
-                        });
-                }, 0);
+                axios.get(`http://localhost:9000/citiesJournalData?name=${cityName}`)
+                    .then((response) => {
+                        if (response.data.length > 0) {
+                            this.journalData = response.data[0];
+                            console.log('в журнал стор загрузились данные о', cityName);
+                        } else {
+                            console.error('Данные о погоде JournalDataStore не найдены', cityName);
+                            this.journalData = null;
+                        }
+                        resolve();
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка при получении данных в журнал стор:', error);
+                        resolve();
+                    });
             });
         } catch (error) {
-            console.error('Ошибка при получении данных о погоде:', error);
+            console.error('Ошибка при получении данных в журнал стор:', error);
         }
     };
 

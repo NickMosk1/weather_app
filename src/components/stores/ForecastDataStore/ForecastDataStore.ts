@@ -22,22 +22,30 @@ class ForecastDataStore {
     }
 
     fetchForecastData = async (cityName: string) => {
-        try {
-            const response = await axios.get(`http://localhost:8000/citiesForecastData?name=${cityName}`);
-            if (response.data.length > 0) {
-                this.forecastData = response.data[0];
-                this.todayDate = calculateCityDate(response.data[0].tzoffset);
-                console.log('в форкаст стор загрузились данные о', cityName);
-            } else {
-                console.error('Данные о погоде не найдены', cityName);
-                this.forecastData = null;
-                this.todayDate = '';
-            }
+        try{
+            await new Promise<void>((resolve) => (
+                axios.get(`http://localhost:8000/citiesForecastData?name=${cityName}`)
+                    .then((response) => {
+                        if (response.data.length > 0) {
+                            this.forecastData = response.data[0];
+                            this.todayDate = calculateCityDate(response.data[0].tzoffset);
+                            console.log('в форкаст стор загрузились данные о', cityName);
+                        } else {
+                            console.error('Данные о погоде ForecastDataStore не найдены', cityName);
+                            this.forecastData = null;
+                        }
+                        resolve();
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка при получении данных в журнал стор:', error);
+                        resolve();
+                    })
+            ))
         } catch (error) {
-            console.error('Ошибка при получении данных о погоде:', error);
+            console.error('Ошибка при получении данных в форкаст стор:', error);
         }
-    };
-    
+    }
+
     clearForecastData = () => {
         this.forecastData = null;
     }

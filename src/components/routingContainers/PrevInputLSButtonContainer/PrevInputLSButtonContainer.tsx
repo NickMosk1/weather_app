@@ -53,15 +53,15 @@ const PrevInputLSButtonContainerWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 75px;
-    padding-bottom: 75px;
+    padding-top: 80px;
+    padding-bottom: 80px;
 `;
 
 const RecordsTitle = styled.div<{darkMode: boolean}>`
     color: ${(props) => (props.darkMode ? '#bbbbbb' : '#333')};
     font-weight: 100;
     font-size: 130%;
-    margin-bottom: 75px;
+    margin-bottom: 80px;
     text-align: center;
 `;
 

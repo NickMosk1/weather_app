@@ -7,7 +7,7 @@ interface CityIsNotFoundErrorProps{
     additionalData: string;
 }
 
-const CityIsNotFoundError: React.FC<CityIsNotFoundErrorProps> = ({additionalData}) => {
+const CityIsNotFoundError: React.FC<CityIsNotFoundErrorProps> = ({ additionalData }) => {
 
     const {darkMode} = useContext(ThemeContext);
 
@@ -15,10 +15,7 @@ const CityIsNotFoundError: React.FC<CityIsNotFoundErrorProps> = ({additionalData
         <CityIsNotFoundErrorWrapper>
             <ErrorMessage> Упс... Кажется, данных о погоде <br/> в городе {additionalData} у нас нет! </ErrorMessage>
             <ErrorImage src={CityIsNotFoundErrorImage} alt="CityNotFound"/>
-            {darkMode ? 
-            <DarkModeErrorMessageDetails> Возможно, такого города не существует. <br/> Попробуйте исправить поисковой запрос. </DarkModeErrorMessageDetails> 
-            : 
-            <ErrorMessageDetails> Возможно, такого города не существует. <br/> Попробуйте исправить поисковой запрос. </ErrorMessageDetails>}
+            <ErrorMessageDetails darkMode={darkMode}> Возможно, такого города не существует. <br/> Попробуйте исправить поисковой запрос. </ErrorMessageDetails>
         </CityIsNotFoundErrorWrapper>
     );
 }
@@ -32,8 +29,8 @@ const CityIsNotFoundErrorWrapper = styled.div`
 `;
 
 const ErrorMessage = styled.div`
-    margin-top: 30px;
-    margin-bottom: 45px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     color: #007bff;
     font-size: 300%;
     font-weight: 900;
@@ -43,19 +40,15 @@ const ErrorMessage = styled.div`
 const ErrorImage = styled.img`
     width: 250px;
     height: 250px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 `;
 
-const ErrorMessageDetails = styled.div`
-    margin-top: 45px;
-    margin-bottom: 30px;
-    color: #333;
+const ErrorMessageDetails = styled.div<{darkMode: boolean}>`
+    margin-top: 40px;
+    margin-bottom: 40px;
+    color: ${(props) => (props.darkMode ? "#bbbbbb" : "#333")};
     font-weight: 100;
     font-size: 130%;
     text-align: center;
-`;
-
-const DarkModeErrorMessageDetails = styled(ErrorMessageDetails)`
-    color: #bbbbbb;
 `;

@@ -30,9 +30,11 @@ const CityForecastAnalytics = observer(() => {
                 try {
                     await fetchJournalData(cityName);
                     if (JournalDataStore.journalData !== null){
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                         navigate(`/cityJournal`, {state: {cityName}});
                     }
                     else{
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                         navigate(`/error`, {state: {additionalData: " за все время", errorType: "dateDataIsNotFound"}});
                     }
                 } catch (error) {

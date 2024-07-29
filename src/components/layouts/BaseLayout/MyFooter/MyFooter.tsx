@@ -1,18 +1,34 @@
 import { useContext } from 'react';
 import { ThemeContext } from '../../../themes/ThemeContext/ThemeContext';
-import classes from './MyFooter.module.css'
+import styled from '@emotion/styled';
 
 const MyFooter = () => {
 
-  const { darkMode } = useContext(ThemeContext);
-  
-  return (
-    <div className={`${classes.myFooter} ${darkMode && classes['myFooter--dark']}`}>
-      <div className={`${classes.myMeteoInfo} ${darkMode && classes['myMeteoInfo--dark']}`}>
-        Данные о погоде предоставлены сервисом Visual Crossing Weather исключительно для личного некоммерческого использования. <br/> ©MyMeteo 
-      </div>
-    </div>
-  );
+    const { darkMode } = useContext(ThemeContext);
+    
+    return (
+        <MyFooterWrapper darkMode={darkMode}>
+            <MyMeteoInfo darkMode={darkMode}>
+                Данные о погоде предоставлены сервисом Visual Crossing Weather исключительно для личного некоммерческого использования. <br/> ©MyMeteo 
+            </MyMeteoInfo>
+        </MyFooterWrapper>
+    );
 };
 
 export default MyFooter;
+
+const MyFooterWrapper = styled.div<{darkMode: boolean}>`
+    background-color: ${(props) => (props.darkMode ? "#222222" : "#f8f9fa")};
+    text-align: center;
+    width: 100%;
+    height: 10%;
+    padding-top: 15px;
+    padding-bottom: 20px;
+`;
+
+const MyMeteoInfo = styled.div<{darkMode: boolean}>`
+    color: ${(props) => (props.darkMode ? "#bbbbbb" : "#333")};
+    font-weight: 300;
+    font-size: 100%;
+    margin-top: 5px;
+`;

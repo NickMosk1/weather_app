@@ -24,6 +24,7 @@ const CityJournalPageContainer = observer(() => {
         if (selectedOption === 'backToForecast') {
             const cityName = journalData?.name;
             clearJournalData();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             navigate(`/cityForecast`, {state: {cityName}});
         }
     }, [selectedOption]);

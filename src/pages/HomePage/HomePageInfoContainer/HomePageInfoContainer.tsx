@@ -64,7 +64,7 @@ const WelcomeQuote = styled.div`
     height: 10%;
     width: 100%;
     text-align: center;
-    margin-top: 75px;
+    margin-top: 80px;
 `;
 
 const HomePageInfoDetails = styled.div`
@@ -72,7 +72,7 @@ const HomePageInfoDetails = styled.div`
     font-weight: 100;
     font-size: 130%;
     width: 70%;
-    margin-top: 75px;
+    margin-top: 80px;
     text-align: center;
 `;
 
@@ -81,5 +81,5 @@ const DarkModeHomePageInfoDetails = styled(HomePageInfoDetails)`
 `;
 
 const SearchCityInputContainer = styled.div`
-    margin-top: 75px;
+    margin-top: 80px;
 `;

@@ -1,43 +1,22 @@
-import { useState, useEffect, ChangeEvent, KeyboardEvent, useContext } from 'react';
+import { useState, ChangeEvent, KeyboardEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import axios from 'axios';
-import classes from './SearchCityInput.module.css';
-import City from '../../../../types/City';
 import ForecastDataStore from '../../../stores/ForecastDataStore/ForecastDataStore';
 import { ThemeContext } from '../../../themes/ThemeContext/ThemeContext';
+import styled from '@emotion/styled';
 
 interface SearchCityInputProps {
-  placeholder: string;
+    placeholder: string;
 }
 
 const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
 
     const [cityName, setCityName] = useState('');
-    const [availableCities, setAvailableCities] = useState<string[]>([]);
     const {darkMode} = useContext(ThemeContext);
     const {fetchForecastData} = ForecastDataStore;
     const navigate = useNavigate(); 
 
-    useEffect(() => {
-        const fetchAvailableCities = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/citiesForecastData');
-            if (response.data) {
-                setAvailableCities(response.data.map((city: City) => city.name));
-            }
-        } catch (error) {
-            console.error('Ошибка при получении списка городов:', error);
-        }
-        };
-        fetchAvailableCities();
-    }, []);
-
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setCityName(event.target.value);
-    };
-
-    const cityDataIsLoaded = (cityName: string) => {
-        return availableCities.includes(cityName);
     };
 
     const saveInputToLocalStorage = (inputData: string) => {
@@ -55,27 +34,35 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
     
     const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-        if (cityDataIsLoaded(event.currentTarget.value)) {
-            saveInputToLocalStorage(cityName);
-            fetchForecastData(cityName);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            navigate(`/cityForecast`, { state: { cityName } });
-            setCityName('');
-        } else {
-            const additionalData = cityName;
-            navigate(`/error`, { state: { additionalData, errorType: "cityIsNotFound" }});
-            setCityName('');
-        }
+            (async () => {
+                try {
+                    await fetchForecastData(cityName);
+                    if (ForecastDataStore.forecastData !== null){
+                        saveInputToLocalStorage(cityName);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        navigate(`/cityForecast`, {state: {cityName}});
+                        setCityName('');
+                    }
+                    else{
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        navigate(`/error`, {state: {additionalData: cityName, errorType: "cityIsNotFound"}});
+                        setCityName('');
+                    }
+                } catch (error) {
+                    console.error('Ошибка при получении данных на моменте обращения к стору форкаста из инпута:', error);
+                    navigate(`/error`, {state: {additionalData: cityName, errorType: "cityIsNotFound"}});
+                } 
+            })();
         }
     };
 
     return (
         <>
-            <input
+            <SearchCityInputWrapper
                 type="text"
                 name="searchCityInput"
+                darkMode={darkMode}
                 placeholder={placeholder}
-                className={`${classes.searchCityInput} ${darkMode && classes['searchCityInput--dark']}`}
                 value={cityName}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
@@ -85,3 +72,29 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
 };
 
 export default SearchCityInput;
+
+const SearchCityInputWrapper = styled.input<{darkMode: boolean}>`
+    color: #007bff;
+    text-emphasis-color: #007bff;
+    background-color: ${(props) => (props.darkMode ? "#333" : "#fff")};
+    padding: 10px 15px;
+    border: 1.7px solid #007bff; 
+    border-radius: 15px;
+    font-size: 120%;
+    font-weight: 100;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+    &: hover{
+        box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+        transform: scale(1.1);
+    }
+
+    &: focus{
+        outline: none; 
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+        transform: scale(1.1);
+    }
+`;
