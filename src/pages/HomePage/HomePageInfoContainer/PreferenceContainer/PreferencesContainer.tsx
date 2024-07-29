@@ -1,21 +1,32 @@
-import classes from './PreferencesContainer.module.css';
-import data from './PreferenceImages/data.png';
-import forecast from './PreferenceImages/forecast.png';
-import journal from './PreferenceImages/journal.png';
-import comfort from './PreferenceImages/comfort.png';
 import Preference from './Preference/Preference';
+import styled from '@emotion/styled';
 
-const PreferencesContainer = () => {
-    return(
-        <>
-            <div className={classes.preferencesContainer}>
-                <Preference image={data} text={'Точные данные'}/>
-                <Preference image={forecast} text={'Детальные прогнозы'}/>
-                <Preference image={journal} text={'Журнал погоды'}/>
-                <Preference image={comfort} text={'Удобный интерфейс'}/>
-            </div>
-        </>
+type preferenceData = {
+    text: string,
+    image: string,
+}
+
+interface PreferencesContainerProps {
+    preferenceDataArray: preferenceData[];
+}
+
+const PreferencesContainer: React.FC<PreferencesContainerProps> = ({ preferenceDataArray }) => {
+    return (
+        <PreferencesContainerWrapper>
+            {preferenceDataArray.map((preferenceData, index) => (
+                <Preference key={index} text={preferenceData.text} image={preferenceData.image}/>
+            ))}
+        </PreferencesContainerWrapper>
     )
 }
 
 export default PreferencesContainer;
+
+const PreferencesContainerWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 75px;
+`;

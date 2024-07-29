@@ -19,12 +19,13 @@ const MyChipBar: React.FC<MyChipBarProps> = ({ selectedOption, setSelectedOption
 
   return (
     <>
-      {chips.map((chip) => (
+      {chips.map((chip, index) => (
         <MyChip
           label={chip.label}
           selected={selectedOption === chip.value}
           clickable={true}
           onClick={() => handleChipClick(chip.value)}
+          key={index}
         />
       ))}
     </>

@@ -1,7 +1,7 @@
-import classes from './PrevInputLSButtonContainer.module.css';
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../themes/ThemeContext/ThemeContext";
 import PrevInputLSButtonContainerRow from "./PrevInputLSButtonContainerRow/PrevInputLSButtonContainerRow";
+import styled from '@emotion/styled';
 
 interface PrevInputLSButtonContainerProps{
     recordShown: number;
@@ -19,32 +19,55 @@ const PrevInputLSButtonContainer: React.FC<PrevInputLSButtonContainerProps> = ({
     const [lastRecords, setLastRecords] = useState<string[]>(getLastRecords(recordShown));
 
     const deleteLastRecords = () => {
-        localStorage.removeItem("prevInputs"); // тут все очищаем при нажатии на ведро мусорное
+        localStorage.removeItem("prevInputs"); 
         setLastRecords([]);
     }
 
     return(
-        <div className={classes.prevInputLSButtonContainer}>
+        <PrevInputLSButtonContainerWrapper>
             {lastRecords.length? 
                 (
-                <>
-                    <div className={`${classes.recordsTitle} ${darkMode && classes['recordsTitle--dark']}`}> 
-                        Ваши сохраненные запросы: 
-                    </div>
-                    <PrevInputLSButtonContainerRow lastRecords={lastRecords} deleteLastRecords={deleteLastRecords}/>
-                </>
+                    <>
+                        <RecordsTitle darkMode={darkMode}> 
+                            Ваши сохраненные запросы: 
+                        </RecordsTitle>
+                        <PrevInputLSButtonContainerRow lastRecords={lastRecords} deleteLastRecords={deleteLastRecords}/>
+                    </>
                 )
                 :
                 (
-                <>
-                    <div className={`${classes.recordsNotFoundWarning} ${darkMode && classes['recordsNotFoundWarning--dark']}`}> 
-                        Сохраненных запросов пока нет. <br/> Введите название города и мы запомним его для Ваших будущих посещений сайта! 
-                    </div>
-                </>
+                    <>
+                        <RecordsNotFoundWarning darkMode={darkMode}> 
+                            Сохраненных запросов пока нет. <br/> Введите название города и мы запомним его для Ваших будущих посещений сайта! 
+                        </RecordsNotFoundWarning>
+                    </>
                 )
             }
-        </div>
+        </PrevInputLSButtonContainerWrapper>
     ) 
 }
 
 export default PrevInputLSButtonContainer;
+
+const PrevInputLSButtonContainerWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 75px;
+    padding-bottom: 75px;
+`;
+
+const RecordsTitle = styled.div<{darkMode: boolean}>`
+    color: ${(props) => (props.darkMode ? '#bbbbbb' : '#333')};
+    font-weight: 100;
+    font-size: 130%;
+    margin-bottom: 75px;
+    text-align: center;
+`;
+
+const RecordsNotFoundWarning = styled.div<{darkMode: boolean}>`
+    color: ${(props) => (props.darkMode ? '#bbbbbb' : '#333')};
+    font-weight: 100;
+    font-size: 130%;
+    text-align: center;
+`;

@@ -43,13 +43,14 @@ const WeatherChartsContainer: React.FC<WeatherChartsContainerProps> = ({ selecte
   return (
     <Paper style={{ backgroundColor: 'unset', boxShadow: 'unset', textAlign: 'center' }}>
       <div className={classes.weatherChartsContainer}>
-        {chips.map(chip => (
+        {chips.map((chip, index) => (
           selectedOption === chip.value && 
           <ChartComponent 
             data={chartData[chip.value]} 
             chartName={chip.label} 
             unitName={unitNames[chip.value]} 
             dates={dates} 
+            key={index}
           />
         ))}
       </div>

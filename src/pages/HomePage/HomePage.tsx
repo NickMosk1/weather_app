@@ -1,11 +1,11 @@
-import HomePageInfoContainer from './HomePageInfoContainer/HomePageInfoContainer';
+import HomePageInfoContainer from "./HomePageInfoContainer/HomePageInfoContainer";
 
 const HomePage = () => {
-  return (
-    <>
-      <HomePageInfoContainer/>
-    </>
-  );
+    return (
+        <>
+            <HomePageInfoContainer/>
+        </>
+    );
 };
 
 export default HomePage;

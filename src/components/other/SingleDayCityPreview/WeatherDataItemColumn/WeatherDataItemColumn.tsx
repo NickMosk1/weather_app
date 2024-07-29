@@ -11,7 +11,7 @@ interface WeatherDataItemColumnProps {
 const WeatherDataItemColumn: React.FC<WeatherDataItemColumnProps> = ({ todayWeather, items }) => {
   return (
     <div className={classes.weatherDataItemColumn}>
-      {items.map(item => (<WeatherDataItem title={item} data={String(todayWeather[item])} />))}
+      {items.map((item, index) => (<WeatherDataItem title={item} data={String(todayWeather[item])} key={index}/>))}
     </div>
   );
 };

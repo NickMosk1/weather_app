@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import JournalDataStore from '../../../../components/stores/JournalDataStore/JournalDataStore';
 import { observer } from 'mobx-react';
 import ForecastDataStore from '../../../../components/stores/ForecastDataStore/ForecastDataStore';
+import CityRoutingContainer from '../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
 
 interface ChipData {
   label: string;
@@ -17,42 +18,53 @@ interface ChipData {
 
 const CityForecastAnalytics = observer(() => {
   
-  const [selectedOption, setSelectedOption] = useState<string>('today');
-  const navigate = useNavigate();
-  const {forecastData} = ForecastDataStore;
-  const cityName = forecastData ? forecastData.name : "error";
-  JournalDataStore.fetchData(cityName); // тут сразу при рендере форкаста вылетает ошибка в консоль, если нет данных журнала
-  
-  useEffect(() => {
-    if (selectedOption === 'weatherJournal' && JournalDataStore.journalData !== null) {
-      navigate(`/cityJournal`, {state: {cityName}});
-    }
-    if (selectedOption === 'weatherJournal' && JournalDataStore.journalData === null){
-      navigate(`/error`, {state: {additionalData: " за все время", errorType: "dateDataIsNotFound"}});
-    }
-  }, [selectedOption]);
+    const [selectedOption, setSelectedOption] = useState<string>('today');
+    const navigate = useNavigate();
+    const {forecastData} = ForecastDataStore;
+    const {fetchJournalData} = JournalDataStore;
+    const cityName = forecastData ? forecastData.name : "error";
 
-  const chips: ChipData[] = [
-    { label: 'Сегодня', value: 'today' },
-    { label: 'На три дня', value: 'threeDays' },
-    { label: 'На неделю', value: 'week' },
-    { label: 'На две недели', value: 'twoWeek' },
-    { label: 'Журнал погоды', value: 'weatherJournal' }
-  ];
+    useEffect(() => {
+        if (selectedOption === 'weatherJournal') {
+            (async () => {
+                try {
+                    await fetchJournalData(cityName);
+                    if (JournalDataStore.journalData !== null){
+                        navigate(`/cityJournal`, {state: {cityName}});
+                    }
+                    else{
+                        navigate(`/error`, {state: {additionalData: " за все время", errorType: "dateDataIsNotFound"}});
+                    }
+                } catch (error) {
+                    console.error('Ошибка при получении данных о погоде:', error);
+                    navigate(`/error`, {state: {additionalData: " за все время", errorType: "dateDataIsNotFound"}});
+                } 
+            })();
+        }
+    }, [selectedOption]);
 
-  return (
-    <>
-      <Paper style={{ backgroundColor: 'unset', boxShadow: 'unset', textAlign: 'center' }}>
-        <MyChipBar selectedOption={selectedOption} setSelectedOption={setSelectedOption} chips={chips} />
+    const chips: ChipData[] = [
+        { label: 'Сегодня', value: 'today' },
+        { label: 'На три дня', value: 'threeDays' },
+        { label: 'На неделю', value: 'week' },
+        { label: 'На две недели', value: 'twoWeek' },
+        { label: 'Журнал погоды', value: 'weatherJournal' }
+    ];
+
+    return (
         <>
-          {selectedOption === 'today' && <TodayScreen/>}
-          {selectedOption === 'threeDays' && <ThreeDaysScreen />}
-          {selectedOption === 'week' && <WeekScreen/>}
-          {selectedOption === 'twoWeek' && <TwoWeeksScreen/>}
+            <Paper style={{ backgroundColor: 'unset', boxShadow: 'unset', textAlign: 'center' }}>
+                <MyChipBar selectedOption={selectedOption} setSelectedOption={setSelectedOption} chips={chips} />
+                <>
+                    {selectedOption === 'today' && <TodayScreen/>}
+                    {selectedOption === 'threeDays' && <ThreeDaysScreen />}
+                    {selectedOption === 'week' && <WeekScreen/>}
+                    {selectedOption === 'twoWeek' && <TwoWeeksScreen/>}
+                </>
+            </Paper>
+            <CityRoutingContainer/>
         </>
-      </Paper>
-    </>
-  );
+    );
 });
 
 export default CityForecastAnalytics;
