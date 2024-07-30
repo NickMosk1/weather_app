@@ -1,9 +1,10 @@
+import { useLocation } from 'react-router-dom';
 import CityJournalPageContainer from './CityJournalPageContainer/CityJournalPageContainer';
 
 const CityJournalPage = () => {
     return (
         <>  
-            <CityJournalPageContainer/> 
+            <CityJournalPageContainer cityName={useLocation().state.cityName as string}/> 
         </>    
     );
 };

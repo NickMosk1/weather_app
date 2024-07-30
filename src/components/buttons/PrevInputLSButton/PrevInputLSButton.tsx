@@ -1,27 +1,21 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { ThemeContext } from '../../themes/ThemeContext/ThemeContext';
-import ForecastDataStore from '../../stores/ForecastDataStore/ForecastDataStore';
 import styled from '@emotion/styled';
 
 interface PrevInputLSButtonProps{
     itemData: string;
+    redirectToPage: (itemData: string) => void;
 }
 
-const PrevInputLSButton: React.FC<PrevInputLSButtonProps> = ({itemData}) => {
+const PrevInputLSButton: React.FC<PrevInputLSButtonProps> = ({itemData, redirectToPage}) => {
 
     const {darkMode} = useContext(ThemeContext);
-    const {fetchForecastData} = ForecastDataStore;
 
-    const buttonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-        fetchForecastData(itemData); //вот это вытащить на пейджу, надо повысить абстракцию
-    };
-    
     return (
         <>
             {itemData !== "notFound"? 
-            <StyledPrevInputLSButton onClick={buttonHandler} darkMode={darkMode}>
-                <Link style={{textDecoration: "none", color: "inherit"}} to="/cityForecast" state={{ cityName: itemData }}> {itemData} </Link>
+            <StyledPrevInputLSButton onClick={() => redirectToPage(itemData)} darkMode={darkMode}>
+                {itemData} 
             </StyledPrevInputLSButton>
             : 
             <></>} 

@@ -13,6 +13,7 @@ interface DateInputProps {
 }
 
 const DateInput: React.FC<DateInputProps> = ({ choosenDate, setChoosenDate }) => {
+
     const { darkMode } = useContext(ThemeContext);
 
     const handleInputChange = (date: dayjs.Dayjs | null) => {

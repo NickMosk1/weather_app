@@ -1,38 +1,29 @@
 import { useContext } from 'react';
 import { ReactNode, ButtonHTMLAttributes } from 'react';
 import { ThemeContext } from '../../themes/ThemeContext/ThemeContext';
-import ForecastDataStore from '../../stores/ForecastDataStore/ForecastDataStore';
-import JournalDataStore from '../../stores/JournalDataStore/JournalDataStore';
 import styled from '@emotion/styled';
 
-interface RoutingHomeButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface RoutingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
+    routeFunc: () => void;
 }
 
-const RoutingHomeButton: React.FC<RoutingHomeButtonProps> = ({ children }) => {
+const RoutingButton: React.FC<RoutingButtonProps> = ({ children, routeFunc}) => {
     
     const {darkMode} = useContext(ThemeContext);
-
-    const {clearJournalData} = JournalDataStore;
-    const {clearForecastData} = ForecastDataStore;
-
-    const clearForecastAndJournalStores = (event: React.MouseEvent<HTMLButtonElement>) => {
-        clearJournalData();
-        clearForecastData(); //вот тут тоже мб вытащить надо?
-    };
     
     return (
         <>
-            <StyledRoutingHomeButton onClick={clearForecastAndJournalStores} darkMode={darkMode}> 
+            <StyledRoutingButton darkMode={darkMode} onClick={routeFunc}> 
                 {children} 
-            </StyledRoutingHomeButton>
+            </StyledRoutingButton>
         </>
     );
 };
 
-export default RoutingHomeButton;
+export default RoutingButton;
 
-const StyledRoutingHomeButton = styled.button<{darkMode: boolean}>`
+const StyledRoutingButton = styled.button<{darkMode: boolean}>`
     color: #007bff; 
     background-color: ${(props) => (props.darkMode ? "#333333" : "#fff")};
     padding: 10px 20px;

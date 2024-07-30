@@ -6,9 +6,8 @@ import TwoWeeksScreen from './CityForecastChipScreens/TwoWeeksScreen/TwoWeeksScr
 import { useEffect, useState } from 'react';
 import MyChipBar from '../../../../components/other/MyChipBar/MyChipBar';
 import { useNavigate } from 'react-router-dom';
-import JournalDataStore from '../../../../components/stores/JournalDataStore/JournalDataStore';
 import { observer } from 'mobx-react';
-import ForecastDataStore from '../../../../components/stores/ForecastDataStore/ForecastDataStore';
+import ForecastDataStore from '../../../../stores/ForecastDataStore/ForecastDataStore';
 import CityRoutingContainer from '../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
 
 interface ChipData {
@@ -21,27 +20,12 @@ const CityForecastAnalytics = observer(() => {
     const [selectedOption, setSelectedOption] = useState<string>('today');
     const navigate = useNavigate();
     const {forecastData} = ForecastDataStore;
-    const {fetchJournalData} = JournalDataStore;
     const cityName = forecastData ? forecastData.name : "error";
 
     useEffect(() => {
         if (selectedOption === 'weatherJournal') {
-            (async () => {
-                try {
-                    await fetchJournalData(cityName);
-                    if (JournalDataStore.journalData !== null){
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        navigate(`/cityJournal`, {state: {cityName}});
-                    }
-                    else{
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        navigate(`/error`, {state: {additionalData: " за все время", errorType: "dateDataIsNotFound"}});
-                    }
-                } catch (error) {
-                    console.error('Ошибка при получении данных о погоде:', error);
-                    navigate(`/error`, {state: {additionalData: " за все время", errorType: "dateDataIsNotFound"}});
-                } 
-            })();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            navigate(`/cityJournal`, { state: { cityName } } );
         }
     }, [selectedOption]);
 

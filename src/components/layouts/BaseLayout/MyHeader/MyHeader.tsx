@@ -23,7 +23,7 @@ const MyHeaderWrapper = styled.div<{darkMode: boolean}>`
     background-color: ${(props) => (props.darkMode ? "#333333" : "#007bff")};
     color: #fff;
     width: 100%;
-    height: 10%;
+    height: fit-content;
     padding-top: 20px;
     padding-bottom: 20px;
 `;
@@ -40,9 +40,7 @@ const HeaderItem = styled.div<{darkMode: boolean}>`
     color: ${(props) => (props.darkMode ? "#007bff" : "#fff")};
     font-weight: 900;
     font-size: 300%;
-    height: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-content: center;
 `;

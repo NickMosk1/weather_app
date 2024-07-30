@@ -2,7 +2,7 @@ import { useState } from 'react';
 import City from '../../../../../../types/City';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
 import Day from '../../../../../../types/Day';
-import ForecastDataStore from '../../../../../../components/stores/ForecastDataStore/ForecastDataStore';
+import ForecastDataStore from '../../../../../../stores/ForecastDataStore/ForecastDataStore';
 
 type ChartType = 'line' | 'bar';
 

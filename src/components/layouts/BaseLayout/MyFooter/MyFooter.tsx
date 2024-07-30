@@ -20,9 +20,8 @@ export default MyFooter;
 const MyFooterWrapper = styled.div<{darkMode: boolean}>`
     background-color: ${(props) => (props.darkMode ? "#222222" : "#f8f9fa")};
     text-align: center;
-    width: 100%;
-    height: 10%;
-    padding-top: 15px;
+    height: fit-content;
+    padding-top: 20px;
     padding-bottom: 20px;
 `;
 
@@ -30,5 +29,4 @@ const MyMeteoInfo = styled.div<{darkMode: boolean}>`
     color: ${(props) => (props.darkMode ? "#bbbbbb" : "#333")};
     font-weight: 300;
     font-size: 100%;
-    margin-top: 5px;
 `;

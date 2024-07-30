@@ -14,7 +14,8 @@ const MyChipStyled = styled(({ selected, darkMode, ...other }: MyChipStyledProps
     fontSize: '125%',
     width: 'fit-content',
     textAlign: 'center',
-    margin: '30px',
+    marginLeft: '20px',
+    marginRight: '20px',
     padding: '10px',
     height: 'fit-content',
 }));

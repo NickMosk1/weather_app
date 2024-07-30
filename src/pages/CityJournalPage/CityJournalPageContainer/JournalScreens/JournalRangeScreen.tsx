@@ -1,5 +1,5 @@
 import { useState } from "react";
-import JournalDataStore from "../../../../components/stores/JournalDataStore/JournalDataStore";
+import JournalDataStore from "../../../../stores/JournalDataStore/JournalDataStore";
 import City from "../../../../types/City";
 import Day from "../../../../types/Day";
 import WeatherChartsContainer from "../../../../components/other/WeatherChartsContainer/WeatherChartsContainer";

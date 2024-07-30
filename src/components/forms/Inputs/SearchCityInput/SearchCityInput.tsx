@@ -1,6 +1,5 @@
 import { useState, ChangeEvent, KeyboardEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import ForecastDataStore from '../../../stores/ForecastDataStore/ForecastDataStore';
 import { ThemeContext } from '../../../themes/ThemeContext/ThemeContext';
 import styled from '@emotion/styled';
 
@@ -12,47 +11,17 @@ const SearchCityInput: React.FC<SearchCityInputProps> = ({ placeholder }) => {
 
     const [cityName, setCityName] = useState('');
     const {darkMode} = useContext(ThemeContext);
-    const {fetchForecastData} = ForecastDataStore;
     const navigate = useNavigate(); 
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setCityName(event.target.value);
     };
-
-    const saveInputToLocalStorage = (inputData: string) => {
-        let prevInputs = JSON.parse(localStorage.getItem("prevInputs") || "[]");
-        const index = prevInputs.indexOf(inputData);
-        if (index !== -1) {
-            prevInputs.splice(index, 1);
-        }
-        prevInputs.unshift(inputData);
-        if (prevInputs.length > 5) { 
-            prevInputs = prevInputs.slice(0, 5);
-        }
-        localStorage.setItem("prevInputs", JSON.stringify(prevInputs));
-    }
     
     const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            (async () => {
-                try {
-                    await fetchForecastData(cityName);
-                    if (ForecastDataStore.forecastData !== null){
-                        saveInputToLocalStorage(cityName);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        navigate(`/cityForecast`, {state: {cityName}});
-                        setCityName('');
-                    }
-                    else{
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        navigate(`/error`, {state: {additionalData: cityName, errorType: "cityIsNotFound"}});
-                        setCityName('');
-                    }
-                } catch (error) {
-                    console.error('Ошибка при получении данных на моменте обращения к стору форкаста из инпута:', error);
-                    navigate(`/error`, {state: {additionalData: cityName, errorType: "cityIsNotFound"}});
-                } 
-            })();
+            navigate(`/cityForecast`, { state: { cityName } });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setCityName('');
         }
     };
 

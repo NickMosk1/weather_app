@@ -1,35 +1,35 @@
 import MyChip from './MyChip/MyChip';
 
 interface ChipData {
-  label: string;
-  value: string;
+    label: string;
+    value: string;
 }
 
 interface MyChipBarProps {
-  selectedOption: string;
-  setSelectedOption: (option: string) => void;
-  chips: ChipData[];
+    selectedOption: string;
+    setSelectedOption: (option: string) => void;
+    chips: ChipData[];
 }
 
 const MyChipBar: React.FC<MyChipBarProps> = ({ selectedOption, setSelectedOption, chips }) => {
 
-  const handleChipClick = (option: string) => {
-    setSelectedOption(option);
-  };
+    const handleChipClick = (option: string) => {
+        setSelectedOption(option);
+    };
 
-  return (
-    <>
-      {chips.map((chip, index) => (
-        <MyChip
-          label={chip.label}
-          selected={selectedOption === chip.value}
-          clickable={true}
-          onClick={() => handleChipClick(chip.value)}
-          key={index}
-        />
-      ))}
-    </>
-  );
+    return (
+        <>
+            {chips.map((chip, index) => (
+                <MyChip
+                    label={chip.label}
+                    selected={selectedOption === chip.value}
+                    clickable={true}
+                    onClick={() => handleChipClick(chip.value)}
+                    key={index}
+                />
+            ))}
+        </>
+    );
 };
 
 export default MyChipBar;

@@ -3,17 +3,17 @@ import { ThemeContext } from "../../../themes/ThemeContext/ThemeContext";
 import { useContext } from 'react';
 
 interface MyChipProps {
-  label: string;
-  selected: boolean;
-  clickable: boolean;
-  onClick: () => void;
+    label: string;
+    selected: boolean;
+    clickable: boolean;
+    onClick: () => void;
 }
 
 const MyChip: React.FC<MyChipProps> = (props) => {
 
-  const {darkMode} = useContext(ThemeContext);
+    const {darkMode} = useContext(ThemeContext);
 
-  return <MyChipStyled {...props} darkMode={darkMode}/>;
+    return <MyChipStyled {...props} darkMode={darkMode}/>;
 };
 
 export default MyChip;

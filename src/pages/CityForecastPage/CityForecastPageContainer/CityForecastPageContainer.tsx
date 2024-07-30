@@ -2,9 +2,10 @@ import { useEffect } from 'react';
 import CityForecastAnalytics from './CityForecastAnalytics/CityForecastAnalytics';
 import SingleDayCityPreview from '../../../components/other/SingleDayCityPreview/SingleDayCityPreview';
 import LinearPageLoader from '../../../components/pageLoaders/LinearPageLoader/LinearPageLoader';
-import ForecastDataStore from '../../../components/stores/ForecastDataStore/ForecastDataStore';
+import ForecastDataStore from '../../../stores/ForecastDataStore/ForecastDataStore';
 import { observer } from 'mobx-react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 interface CityForecastPageContainerProps {
     cityName: string;
@@ -12,9 +13,17 @@ interface CityForecastPageContainerProps {
 
 const CityForecastPageContainer: React.FC<CityForecastPageContainerProps> = observer(({cityName}) => {
 
-    const {forecastData, todayDate, fetchForecastData} = ForecastDataStore;
+    const {forecastData, isLoading, todayDate, fetchForecastData} = ForecastDataStore;
+    const navigate = useNavigate();
 
-    useEffect(() => { 
+    useEffect(() => {
+        if (forecastData === null) {
+            fetchForecastData(cityName)
+        } else {
+            if (cityName !== forecastData.name) {
+                fetchForecastData(cityName)
+            }
+        }
         const millisRemainTillNextHour = (60 - new Date().getMinutes()) * 60 * 1000 - new Date().getSeconds() * 1000 - new Date().getMilliseconds();
         const timeoutId = setTimeout(() => { 
             fetchForecastData(cityName);
@@ -23,18 +32,26 @@ const CityForecastPageContainer: React.FC<CityForecastPageContainerProps> = obse
         return () => clearTimeout(timeoutId); 
     }, [cityName]);
 
-    if (!forecastData) {return (<LinearPageLoader/>);} 
-
     return (
-        <CityForecastPageContainerWrapper>
-            <SingleDayCityPreview 
-                weatherData={forecastData} 
-                todayDate={todayDate} 
-                leftColumn={["tempmax", "temp", "tempmin", "pressure"]}
-                rightColumn={["dew", "humidity", "windgust", "preciptype"]}
-            />
-            <CityForecastAnalytics/>
-        </CityForecastPageContainerWrapper>
+        <>
+            {!forecastData && isLoading && <LinearPageLoader/>}
+            {!forecastData && !isLoading && (
+                navigate(`/error`, { state: { additionalData: cityName, errorType: 'cityIsNotFound' } }),
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+            )}
+            {forecastData && isLoading && <LinearPageLoader/>}
+            {forecastData && !isLoading && (
+                <CityForecastPageContainerWrapper>
+                    <SingleDayCityPreview 
+                        weatherData={forecastData} 
+                        todayDate={todayDate} 
+                        leftColumn={["tempmax", "temp", "tempmin", "pressure"]}
+                        rightColumn={["dew", "humidity", "windgust", "preciptype"]}
+                    />
+                    <CityForecastAnalytics/>
+                </CityForecastPageContainerWrapper>
+            )}
+        </>
     );
 });
 

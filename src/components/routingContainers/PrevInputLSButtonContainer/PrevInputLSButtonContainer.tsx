@@ -1,37 +1,27 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../../themes/ThemeContext/ThemeContext";
 import PrevInputLSButtonContainerRow from "./PrevInputLSButtonContainerRow/PrevInputLSButtonContainerRow";
 import styled from '@emotion/styled';
 
 interface PrevInputLSButtonContainerProps{
-    recordShown: number;
+    buttonData: string[];
+    deleteFunc: () => void;
+    redirectToPage: (itemData: string) => void;
 }
 
-const getLastRecords = (recordShown: number) => {
-    const prevInputs = JSON.parse(localStorage.getItem("prevInputs") || "[]");
-    const lastRecords = prevInputs.slice(0, recordShown);
-    return lastRecords;
-}
-
-const PrevInputLSButtonContainer: React.FC<PrevInputLSButtonContainerProps> = ({recordShown}) => {
+const PrevInputLSButtonContainer: React.FC<PrevInputLSButtonContainerProps> = ({buttonData, deleteFunc, redirectToPage}) => {
 
     const {darkMode} = useContext(ThemeContext);
-    const [lastRecords, setLastRecords] = useState<string[]>(getLastRecords(recordShown));
-
-    const deleteLastRecords = () => {
-        localStorage.removeItem("prevInputs"); 
-        setLastRecords([]);
-    }
 
     return(
         <PrevInputLSButtonContainerWrapper>
-            {lastRecords.length? 
+            {buttonData.length? 
                 (
                     <>
                         <RecordsTitle darkMode={darkMode}> 
                             Ваши сохраненные запросы: 
                         </RecordsTitle>
-                        <PrevInputLSButtonContainerRow lastRecords={lastRecords} deleteLastRecords={deleteLastRecords}/>
+                        <PrevInputLSButtonContainerRow buttonData={buttonData} deleteFunc={deleteFunc} redirectToPage={redirectToPage}/>
                     </>
                 )
                 :
@@ -53,8 +43,8 @@ const PrevInputLSButtonContainerWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 80px;
-    padding-bottom: 80px;
+    margin-top: 40px;
+    margin-bottom: 80px;
 `;
 
 const RecordsTitle = styled.div<{darkMode: boolean}>`

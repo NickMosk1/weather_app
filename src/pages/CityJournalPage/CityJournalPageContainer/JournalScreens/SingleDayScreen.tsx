@@ -4,7 +4,7 @@ import DayAndNightDataContainer from "../../../../components/other/DayAndNightDa
 import WeatherChartsContainer from "../../../../components/other/WeatherChartsContainer/WeatherChartsContainer";
 import DateDataIsNotFoundError from "../../../../components/errorScreens/DateDataIsNotFoundError/DateDataIsNotFoundError";
 import { observer } from "mobx-react";
-import JournalDataStore from "../../../../components/stores/JournalDataStore/JournalDataStore";
+import JournalDataStore from "../../../../stores/JournalDataStore/JournalDataStore";
 
 type ChartType = 'line' | 'bar';
 

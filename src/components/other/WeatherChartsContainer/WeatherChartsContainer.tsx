@@ -62,5 +62,5 @@ const WeatherChartsContainer: React.FC<WeatherChartsContainerProps> = ({ selecte
 export default WeatherChartsContainer;
 
 const WeatherChartsContainerWrapper = styled.div`
-    margin-bottom: 30px;
+    margin-bottom: 60px;
 `;

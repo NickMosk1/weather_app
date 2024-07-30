@@ -59,7 +59,7 @@ const CustomBarChartWrapper = styled.div`
 `;
 
 const ChartName = styled.div`
-    margin: 30px;
+    margin: 40px;
     font-size: 200%;
     font-weight: 900;
     color: #007bff;

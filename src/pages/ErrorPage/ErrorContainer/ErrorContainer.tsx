@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import RoutingButton from '../../../components/buttons/RoutingButton/RoutingButton';
 import ErrorDetailsContainer from './ErrorDetailsContainer/ErrorDetailsContainer';
-import RoutingHomeButton from '../../../components/buttons/RoutingHomeButton/RoutingHomeButton';
 import styled from '@emotion/styled';
-import PrevInputLSButtonContainer from '../../../components/routingContainers/PrevInputLSButtonContainer/PrevInputLSButtonContainer';
 
 type ErrorTypes = 'cityIsNotFound' | 'dateDataIsNotFound' | 'incorrectInput';
 
@@ -12,15 +11,20 @@ interface ErrorContainerProps{
 };
 
 const ErrorContainer: React.FC<ErrorContainerProps> = ({ errorType, additionalData }) => {
+
+    const navigate = useNavigate();
+
+    const routeToHomePage = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        navigate(`/`);
+    }
+
     return (
         <ErrorContainerWrapper>
             <ErrorDetailsContainer errorType={errorType} additionalData={additionalData}/>
             <ButtonContainer>
-                <RoutingHomeButton>
-                    <Link to="/" style={{textDecoration: "none", color: "inherit"}}> Вернуться к начальной странице </Link> {/* по другому не получается стилиховать :( */}
-                </RoutingHomeButton>
+                <RoutingButton routeFunc={routeToHomePage}> Вернуться к начальной странице </RoutingButton>
             </ButtonContainer>
-            <PrevInputLSButtonContainer recordShown={3}/>
         </ErrorContainerWrapper>
     );
 };
@@ -29,6 +33,7 @@ export default ErrorContainer;
 
 const ButtonContainer = styled.div`
     margin-top: 40px;
+    margin-bottom: 80px;
 `;
 
 const ErrorContainerWrapper = styled.div`

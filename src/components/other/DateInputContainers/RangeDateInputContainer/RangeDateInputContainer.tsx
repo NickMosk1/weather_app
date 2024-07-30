@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import DateInput from "../../../forms/Inputs/DateInput/DateInput";
-import WeatherStore from "../../../stores/JournalDataStore/JournalDataStore";
-import classes from './RangeDateInputContainer.module.css';
+import WeatherStore from "../../../../stores/JournalDataStore/JournalDataStore";
 import { ThemeContext } from "../../../themes/ThemeContext/ThemeContext";
+import styled from "@emotion/styled";
 
 interface RangeDateInputContainerProps{
     startDate: string;
@@ -17,20 +17,54 @@ const RangeDateInputContainer: React.FC<RangeDateInputContainerProps> = ({startD
     const {darkMode} = useContext(ThemeContext);
 
     return(
-        <div className={classes.rangeDateInputContainer}>
-            <div className={classes.choosenDateTitle}>
+        <RangeDateInputContainerWrapper>
+            <ChoosenDateTitle>
                 Погода в {journalData !== null && journalData.name} с {startDate} по {endDate}:
-            </div>
-            <div className={`${classes.choosenDateTitleDetails} ${darkMode && classes['choosenDateTitleDetails--dark']}`}>
+            </ChoosenDateTitle>
+            <ChoosenDateTitleDetails darkMode={darkMode}>
                 Откройте для себя новые возможности и узнайте, как изменилась погода за последние дни, месяцы или даже годы. 
                 С помощью нашего инструмента вы можете выбрать любой период времени и анализировать погодные данные по вашему усмотрению. 
-            </div>
-            <div className={classes.dateInputContainer}>
+            </ChoosenDateTitleDetails>
+            <DateInputContainer>
                 <DateInput choosenDate={startDate} setChoosenDate={setStartDate}/>
                 <DateInput choosenDate={endDate} setChoosenDate={setEndDate}/>
-            </div>
-        </div>
+            </DateInputContainer>
+        </RangeDateInputContainerWrapper>
     )
 }
 
 export default RangeDateInputContainer;
+
+
+const RangeDateInputContainerWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const ChoosenDateTitle = styled.div`
+    color: #007bff;
+    font-weight: 900;
+    font-size: 200%;
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 40px;
+`;
+
+const ChoosenDateTitleDetails = styled.div<{darkMode: boolean}>`
+    color: ${(props) => (props.darkMode ? "#bbbbbb" : "#333")};
+    font-weight: 100;
+    font-size: 130%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+`;
+
+const DateInputContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 15%;
+    padding-right: 15%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+`;

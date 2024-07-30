@@ -3,15 +3,18 @@ import DeleteButton from '../../../buttons/DeleteButton/DeleteButton';
 import styled from '@emotion/styled';
 
 interface PrevInputLSButtonContainerRowProps{
-    lastRecords: string[];
-    deleteLastRecords: () => void;
+    buttonData: string[];
+    deleteFunc: () => void;
+    redirectToPage: (itemData: string) => void;
 }
 
-const PrevInputLSButtonContainerRow: React.FC<PrevInputLSButtonContainerRowProps> = ({lastRecords, deleteLastRecords}) => {
+const PrevInputLSButtonContainerRow: React.FC<PrevInputLSButtonContainerRowProps> = ({buttonData, deleteFunc, redirectToPage}) => {
     return(
         <PrevInputLSButtonContainerRowWrapper>
-            {lastRecords.map((id: string) => (<PrevInputLSButton key={id} itemData={id}/>))}
-            <DeleteButton deleteFunc={deleteLastRecords}/>
+            {buttonData.map((id: string) => (
+                <PrevInputLSButton key={id} itemData={id} redirectToPage={redirectToPage}/>
+            ))}
+            <DeleteButton deleteFunc={deleteFunc}/>
         </PrevInputLSButtonContainerRowWrapper>
     ) 
 }
