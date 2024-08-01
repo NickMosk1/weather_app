@@ -22,7 +22,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ deleteFunc }) => {
 
 const StyledDeleteButton = styled.button<{darkMode: boolean}>`
     color: ${(props) => (props.darkMode ? "#dddddd" : "007bff")};
-    background-color:  ${(props) => (props.darkMode ? "#333333" : "#fff")};
+    background-color: ${(props) => (props.darkMode ? "#333333" : "#fff")};
     padding: 10px 15px;
     border-style: solid;
     border-width: 1px;

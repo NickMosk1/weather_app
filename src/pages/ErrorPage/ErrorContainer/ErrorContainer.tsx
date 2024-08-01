@@ -14,7 +14,7 @@ const ErrorContainer: React.FC<ErrorContainerProps> = ({ errorType, additionalDa
 
     const navigate = useNavigate();
 
-    const routeToHomePage = () => {
+    const routeToHomePage = () => { 
         window.scrollTo({ top: 0, behavior: 'smooth' });
         navigate(`/`);
     }

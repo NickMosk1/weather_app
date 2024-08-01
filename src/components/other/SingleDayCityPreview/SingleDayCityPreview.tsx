@@ -1,29 +1,39 @@
-import City from '../../../types/City';
-import classes from './SingleDayCityPreview.module.css';
-import CityInfo from './CityInfo/CityInfo';
+import styled from '@emotion/styled';
+import CityInfo from '../CityInfo/CityInfo';
 import WeatherDataItemColumn from './WeatherDataItemColumn/WeatherDataItemColumn';
+import Day from '../../../types/Day';
 
 interface SingleDayCityPreviewProps {
-  weatherData: City;
-  todayDate: string;
-  leftColumn: string[];
-  rightColumn: string[];
+    singleDayWeatherData: Day;
+    cityInfoData: CityInfoData;
+    leftColumn: string[];
+    rightColumn: string[];
 }
 
-const SingleDayCityPreview: React.FC<SingleDayCityPreviewProps> = ({ weatherData, todayDate, leftColumn, rightColumn}) => {
+type CityInfoData = {
+    cityNameInfo: string;
+    cityResolvedAddress: string;
+    cityTzoffset: number;
+}
 
-  const todayWeather = weatherData.days.find(day => day.datetime === todayDate);
-  const cityInfoData: [string, string, number] = [weatherData.name, weatherData.resolvedAddress.slice(weatherData.name.length + 2), weatherData.tzoffset]; 
-
-  if (!todayWeather) {return (<div> Теоретически невозможный исход </div>)} 
-
-  return (
-    <div className={classes.singleDayCityPreview}>  
-      <WeatherDataItemColumn todayWeather={todayWeather} items={leftColumn} />
-      <CityInfo cityInfoData={cityInfoData} />
-      <WeatherDataItemColumn todayWeather={todayWeather} items={rightColumn} />
-    </div>
-  );
+const SingleDayCityPreview: React.FC<SingleDayCityPreviewProps> = ({ singleDayWeatherData, cityInfoData, leftColumn, rightColumn}) => {
+    return (
+        <SingleDayCityPreviewWrapper>  
+            <WeatherDataItemColumn weatherData={singleDayWeatherData} items={leftColumn} />
+            <CityInfo cityInfoData={cityInfoData} />
+            <WeatherDataItemColumn weatherData={singleDayWeatherData} items={rightColumn} />
+        </SingleDayCityPreviewWrapper>
+    );
 };
 
 export default SingleDayCityPreview;
+
+const SingleDayCityPreviewWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    margin-top: 40px;
+`;

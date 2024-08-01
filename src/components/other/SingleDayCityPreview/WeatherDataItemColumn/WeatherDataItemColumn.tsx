@@ -1,19 +1,28 @@
-import React from 'react';
 import Day from '../../../../types/Day';
-import classes from './WeatherDataItemColumn.module.css';
 import WeatherDataItem from './WeatherDataItem/WeatherDataItem';
+import styled from '@emotion/styled';
 
 interface WeatherDataItemColumnProps {
-  todayWeather: Day;
-  items: string[];
+    weatherData: Day;
+    items: string[];
 }
 
-const WeatherDataItemColumn: React.FC<WeatherDataItemColumnProps> = ({ todayWeather, items }) => {
-  return (
-    <div className={classes.weatherDataItemColumn}>
-      {items.map((item, index) => (<WeatherDataItem title={item} data={String(todayWeather[item])} key={index}/>))}
-    </div>
-  );
+const WeatherDataItemColumn: React.FC<WeatherDataItemColumnProps> = ({ weatherData, items }) => {
+    return (
+        <WeatherDataItemColumnWrapper>
+            {items.map((item, index) => (
+                <WeatherDataItem title={item} data={String(weatherData[item])} key={index}/>
+            ))}
+        </WeatherDataItemColumnWrapper>
+    );
 };
 
 export default WeatherDataItemColumn;
+
+const WeatherDataItemColumnWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-around;
+    width: 20%;
+`;

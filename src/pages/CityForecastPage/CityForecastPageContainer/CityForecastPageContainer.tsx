@@ -11,13 +11,36 @@ interface CityForecastPageContainerProps {
     cityName: string;
 }
 
+type CityInfoData = {
+    cityNameInfo: string;
+    cityResolvedAddress: string;
+    cityTzoffset: number;
+}
+
 const CityForecastPageContainer: React.FC<CityForecastPageContainerProps> = observer(({cityName}) => {
 
     const {forecastData, isLoading, todayDate, fetchForecastData} = ForecastDataStore;
     const navigate = useNavigate();
 
+    const todayWeather = forecastData?.days.find(day => day.datetime === todayDate);
+    const cityNameInfo = forecastData?.name;
+    const cityResolvedAddress = forecastData?.resolvedAddress.slice(forecastData.name.length + 2);
+    const cityTzoffset = forecastData?.tzoffset;
+
+    if (!todayWeather || !cityNameInfo || !cityResolvedAddress || !cityTzoffset) {
+        navigate(`/error`, { state: { additionalData: " сегодня", errorType: "dateDataIsNotFound" } });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return null;
+    }
+    
+    const cityInfoData: CityInfoData = {
+        cityNameInfo: cityNameInfo,
+        cityResolvedAddress: cityResolvedAddress,
+        cityTzoffset: cityTzoffset,
+    };
+
     useEffect(() => {
-        if (forecastData === null) {
+        if (forecastData === null) { 
             fetchForecastData(cityName)
         } else {
             if (cityName !== forecastData.name) {
@@ -43,10 +66,10 @@ const CityForecastPageContainer: React.FC<CityForecastPageContainerProps> = obse
             {forecastData && !isLoading && (
                 <CityForecastPageContainerWrapper>
                     <SingleDayCityPreview 
-                        weatherData={forecastData} 
-                        todayDate={todayDate} 
-                        leftColumn={["tempmax", "temp", "tempmin", "pressure"]}
-                        rightColumn={["dew", "humidity", "windgust", "preciptype"]}
+                        singleDayWeatherData = {todayWeather} 
+                        cityInfoData = {cityInfoData}
+                        leftColumn = {["tempmax", "temp", "tempmin", "pressure"]}
+                        rightColumn = {["dew", "humidity", "windgust", "preciptype"]}
                     />
                     <CityForecastAnalytics/>
                 </CityForecastPageContainerWrapper>

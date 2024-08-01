@@ -2,6 +2,7 @@ import { useState } from 'react';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
 import DayAndNightDataContainer from '../../../../../../components/other/DayAndNightDataContainer/DayAndNightDataContainer';
 import ForecastDataStore from '../../../../../../stores/ForecastDataStore/ForecastDataStore';
+import { useNavigate } from 'react-router-dom';
 
 type ChartType = 'line' | 'bar';
 
@@ -9,10 +10,14 @@ const TodayScreen = () => {
     
     const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
     const {forecastData, todayDate} = ForecastDataStore;
-
+    const navigate = useNavigate();
     const todayWeather = forecastData?.days.find(day => day.datetime === todayDate);
 
-    if (!todayWeather) {return (<div>Данные о погоде на текущую дату не найдены</div>)} {/* в будущем добавить обработчик ошибок */}
+    if (!todayWeather) {
+        navigate(`/error`, { state: { additionalData: " сегодня", errorType: "dateDataIsNotFound" } });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return null;
+    }
 
     const chartData = {
         temperature: todayWeather.hours.map(hour => ({ time: hour.datetime.slice(0, -3), value: hour.temp })),

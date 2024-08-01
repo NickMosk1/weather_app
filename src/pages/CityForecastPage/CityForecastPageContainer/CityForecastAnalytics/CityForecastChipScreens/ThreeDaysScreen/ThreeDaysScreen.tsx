@@ -3,6 +3,8 @@ import WeatherChartsContainer from '../../../../../../components/other/WeatherCh
 import Day from '../../../../../../types/Day';
 import Hour from '../../../../../../types/Hour';
 import ForecastDataStore from '../../../../../../stores/ForecastDataStore/ForecastDataStore';
+import { useNavigate } from 'react-router-dom';
+import City from '../../../../../../types/City';
 
 type ChartType = 'line' | 'bar';
 
@@ -20,14 +22,44 @@ const generateChartData = (weatherData: Day, key: string, startIndex: number) =>
     }));
 };
 
-const getWeatherDataForDate = (weatherData: any, date: string) => {
-    return weatherData.days.find((day: any) => day.datetime === date);
+const getWeatherDataForDate = (weatherData: City | null, date: string) => {
+    return weatherData?.days.find((day: Day) => day.datetime === date);
+};
+
+const getThreeDayWeather = (weatherData: City, date: string) => {
+    const todayIndex: number = weatherData?.days.findIndex((day: Day) => day.datetime === date);
+    if (todayIndex === -1) {
+        return undefined;
+    } else {
+        const todayWeather = weatherData?.days[todayIndex];
+        const secondDayWeather = weatherData?.days[todayIndex + 1];
+        const thirdDayWeather = weatherData?.days[todayIndex + 2];
+        return {...todayWeather, ...secondDayWeather, ...thirdDayWeather};
+    }
 };
 
 const ThreeDaysScreen= () => {
     
     const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
     const {forecastData, todayDate} = ForecastDataStore;
+    const navigate = useNavigate();
+
+    let threeDayWeather;
+
+    if (!forecastData) {
+        navigate(`/error`, { state: { additionalData: " сегодня, завтра и послезавтра", errorType: "dateDataIsNotFound" } });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return null;
+    } else {
+        threeDayWeather = getThreeDayWeather(forecastData, todayDate);
+        if (!threeDayWeather) {
+            navigate(`/error`, { state: { additionalData: " сегодня, завтра и послезавтра", errorType: "dateDataIsNotFound" } });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return null;
+        }
+    }
+
+    console.log(generateChartData(threeDayWeather, 'temp', 0));
 
     const todayWeather = getWeatherDataForDate(forecastData, todayDate);
     const secondDayWeather = getWeatherDataForDate(forecastData, getNextDate(todayDate, 1));
@@ -35,7 +67,11 @@ const ThreeDaysScreen= () => {
 
     const dates = [todayDate, getNextDate(todayDate, 1), getNextDate(todayDate, 2)];
 
-    if (!todayWeather || !secondDayWeather || !thirdDayWeather) {return (<div>Данные о погоде на текущую или следующие даты не найдены</div>)}
+    if (!todayWeather || !secondDayWeather || !thirdDayWeather) {
+        navigate(`/error`, { state: { additionalData: " сегодня, завтра и послезавтра", errorType: "dateDataIsNotFound" } });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return null;
+    }
 
     const chartData = {
         temperature: [
