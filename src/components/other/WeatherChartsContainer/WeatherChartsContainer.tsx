@@ -41,7 +41,7 @@ const WeatherChartsContainer: React.FC<WeatherChartsContainerProps> = ({ selecte
     const ChartComponent = getChartComponent(chartType);
 
     return (
-        <Paper style={{ backgroundColor: 'unset', boxShadow: 'unset', textAlign: 'center' }}>
+        <StyledPaper>
             <WeatherChartsContainerWrapper>
                 {chips.map((chip, index) => (
                     selectedOption === chip.value && 
@@ -55,12 +55,19 @@ const WeatherChartsContainer: React.FC<WeatherChartsContainerProps> = ({ selecte
                 ))}
             </WeatherChartsContainerWrapper>
             <MyChipBar selectedOption={selectedOption} setSelectedOption={setSelectedOption} chips={chips}/>
-        </Paper>
+        </StyledPaper>
     );
 };
 
 export default WeatherChartsContainer;
 
 const WeatherChartsContainerWrapper = styled.div`
+    margin-top: 30px;
     margin-bottom: 60px;
+`;
+
+const StyledPaper = styled(Paper)`
+    background-color: unset;
+    box-shadow: unset;
+    text-align: center;
 `;

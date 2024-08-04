@@ -22,23 +22,6 @@ const CityForecastPageContainer: React.FC<CityForecastPageContainerProps> = obse
     const {forecastData, isLoading, todayDate, fetchForecastData} = ForecastDataStore;
     const navigate = useNavigate();
 
-    const todayWeather = forecastData?.days.find(day => day.datetime === todayDate);
-    const cityNameInfo = forecastData?.name;
-    const cityResolvedAddress = forecastData?.resolvedAddress.slice(forecastData.name.length + 2);
-    const cityTzoffset = forecastData?.tzoffset;
-
-    if (!todayWeather || !cityNameInfo || !cityResolvedAddress || !cityTzoffset) {
-        navigate(`/error`, { state: { additionalData: " сегодня", errorType: "dateDataIsNotFound" } });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return null;
-    }
-    
-    const cityInfoData: CityInfoData = {
-        cityNameInfo: cityNameInfo,
-        cityResolvedAddress: cityResolvedAddress,
-        cityTzoffset: cityTzoffset,
-    };
-
     useEffect(() => {
         if (forecastData === null) { 
             fetchForecastData(cityName)
@@ -54,6 +37,32 @@ const CityForecastPageContainer: React.FC<CityForecastPageContainerProps> = obse
         }, millisRemainTillNextHour);
         return () => clearTimeout(timeoutId); 
     }, [cityName]);
+    
+    const todayWeather = forecastData?.days.find(day => day.datetime === todayDate);
+    const cityNameInfo = forecastData?.name;
+    const cityResolvedAddress = forecastData?.resolvedAddress.slice(forecastData.name.length + 2);
+    const cityTzoffset = forecastData?.tzoffset;
+
+    if(!isLoading){
+        if (!forecastData) {
+            navigate(`/error`, { state: { additionalData: cityName, errorType: 'cityIsNotFound' } });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return null;
+        } 
+        if (!todayWeather || !cityNameInfo || !cityResolvedAddress || !cityTzoffset) {
+            navigate(`/error`, { state: { additionalData: " сегодня", errorType: "dateDataIsNotFound" } });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return null;
+        } 
+    } else {
+        return <LinearPageLoader/>
+    }
+
+    const cityInfoData: CityInfoData = {
+        cityNameInfo: cityNameInfo,
+        cityResolvedAddress: cityResolvedAddress,
+        cityTzoffset: cityTzoffset,
+    };
 
     return (
         <>

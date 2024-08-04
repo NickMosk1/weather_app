@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import ForecastDataStore from '../../../../stores/ForecastDataStore/ForecastDataStore';
 import CityRoutingContainer from '../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
+import styled from '@emotion/styled';
 
 interface ChipData {
   label: string;
@@ -39,7 +40,7 @@ const CityForecastAnalytics = observer(() => {
 
     return (
         <>
-            <Paper style={{ backgroundColor: 'unset', boxShadow: 'unset', textAlign: 'center' }}>
+            <StyledPaper>
                 <MyChipBar selectedOption={selectedOption} setSelectedOption={setSelectedOption} chips={chips} />
                 <>
                     {selectedOption === 'today' && <TodayScreen/>}
@@ -47,10 +48,17 @@ const CityForecastAnalytics = observer(() => {
                     {selectedOption === 'week' && <WeekScreen/>}
                     {selectedOption === 'twoWeek' && <TwoWeeksScreen/>}
                 </>
-            </Paper>
+            </StyledPaper>
             <CityRoutingContainer/>
         </>
     );
 });
 
 export default CityForecastAnalytics;
+
+const StyledPaper = styled(Paper)`
+    background-color: unset;
+    box-shadow: unset;
+    text-align: center; 
+    margin-top: 40px;
+`;

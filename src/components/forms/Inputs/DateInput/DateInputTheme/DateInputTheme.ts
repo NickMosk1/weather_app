@@ -8,7 +8,8 @@ const theme = createTheme({
                     border: '1px solid black',
                     padding: 2,
                     marginTop: 1,
-                    backgroundColor: '#007bff',
+                    backgroundColor: '#222222',
+                    color: '#fff',
                 },
             },
         },
@@ -16,6 +17,7 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     backgroundColor: 'rgba(120, 120, 120, 0.4)',
+                    color: '#fff',
                 },
             },
         },
