@@ -32,45 +32,46 @@ class ForecastDataStore {
             todayDate: observable,
             isLoading: observable,
             fetchForecastData: action,
-            // clearForecastData: action
         });
     }
-
+    
     fetchForecastData = async (cityName: string) => {
-        this.isLoading = true;
-        try {
-            await new Promise<void>((resolve) => {
-                setTimeout(() => {
-                    axios.get(`http://localhost:8000/citiesForecastData?name=${cityName}`)
-                        .then((response) => {
-                            if (response.data.length > 0) {
-                                this.forecastData = response.data[0];
-                                this.todayDate = calculateCityDate(response.data[0].tzoffset);
-                                saveForecastInputToLocalStorage(cityName);
-                                console.log('в форкаст стор загрузились данные о', cityName);
-                            } else {
-                                console.error('Данные о погоде ForecastDataStore не найдены', cityName);
-                                this.forecastData = null;
-                            }
-                            this.isLoading = false;
-                            resolve();
-                        })
-                        .catch((error) => {
-                            console.error('Ошибка при получении данных в журнал стор:', error);
-                            this.isLoading = false;
-                            resolve();
-                        })
-                }, 1000); // Искусственная задержка в 1 секунду
-            });
-        } catch (error) {
-            console.error('Ошибка при получении данных в форкаст стор:', error);
-            this.isLoading = false;
+        if (this.forecastData === null) { 
+            this.downloadForecastData(cityName)
+        } else {
+            if (cityName !== this.forecastData.name) {
+                this.downloadForecastData(cityName)
+            }
         }
     }
 
-    // clearForecastData = () => {
-    //     this.forecastData = null;
-    // }
+    private downloadForecastData = async (cityName: string) => {
+        this.isLoading = true;
+        try {
+            setTimeout(() => {
+                axios.get(`http://localhost:8000/citiesForecastData?name=${cityName}`)
+                    .then((response) => {
+                        if (response.data.length > 0) {
+                            this.forecastData = response.data[0];
+                            this.todayDate = calculateCityDate(response.data[0].tzoffset);
+                            saveForecastInputToLocalStorage(cityName);
+                            console.log('в форкаст стор загрузились данные о', cityName);
+                        } else {
+                            console.error('Данные о погоде ForecastDataStore не найдены', cityName);
+                            this.forecastData = null;
+                        }
+                        this.isLoading = false;
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка при получении данных в форкаст стор; кетч внутри', error);
+                        this.isLoading = false;
+                    })
+            }, 1000); 
+        } catch (error) {
+            console.error('Ошибка при получении данных в форкаст стор; кетч снаружи', error);
+            this.isLoading = false;
+        }
+    }
 }
 
 export default new ForecastDataStore();

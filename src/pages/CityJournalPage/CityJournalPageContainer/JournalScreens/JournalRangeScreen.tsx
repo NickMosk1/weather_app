@@ -7,6 +7,7 @@ import RangeDateInputContainer from "../../../../components/other/DateInputConta
 import DateDataIsNotFoundError from "../../../../components/errorScreens/DateDataIsNotFoundError/DateDataIsNotFoundError";
 import { observer } from "mobx-react";
 import IncorrectInputError from "../../../../components/errorScreens/IncorrectInputError/IncorrectInputError";
+import { useNavigate } from "react-router-dom";
 
 type ChartType = 'line' | 'bar';
 
@@ -20,11 +21,16 @@ const generateChartData = (weatherData: City, paramName: string, startIndex: num
 const JournalRangeScreen = observer(() => {
 
     const {journalData} = JournalDataStore;
-    const [startDate, setStartDate] = useState<string>('2024-07-07');
-    const [endDate, setEndDate] = useState<string>('2024-07-21');
+    const [startDate, setStartDate] = useState<string>('2024-07-07'); //тут временно такие рамки, пока нет пагинации нормальной
+    const [endDate, setEndDate] = useState<string>('2024-07-21'); //тут временно такие рамки, пока нет пагинации нормальной
     const [selectedOption, setSelectedOption] = useState<string>('temperature');
+    const navigate = useNavigate();
     
-    if(!journalData){return(<>теоретически невозможный исход</>)}
+    if(!journalData){
+        navigate(`/error`, { state: { additionalData: " все время", errorType: "dateDataIsNotFound" } });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return null;
+    }
 
     const startIndex = journalData.days.findIndex((day: Day) => day.datetime === startDate);
     const endIndex = journalData.days.findIndex((day: Day) => day.datetime === endDate);

@@ -28,7 +28,7 @@ const ErrorContainer: React.FC<ErrorContainerProps> = ({ errorType, additionalDa
         </ErrorContainerWrapper>
     );
 };
-  
+
 export default ErrorContainer;
 
 const ButtonContainer = styled.div`

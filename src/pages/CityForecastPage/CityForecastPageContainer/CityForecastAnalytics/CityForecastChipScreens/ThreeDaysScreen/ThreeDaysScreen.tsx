@@ -14,16 +14,13 @@ const getNextDate = (date: string, daysToAdd: number): string => {
     return dateObj.toISOString().split('T')[0];
 };
 
-const generateChartData = (weatherData: Day, key: string, startIndex: number) => {
-    return weatherData.hours.map((hour: Hour, index: number) => ({
+const generateThreeDayChartData = (weatherData: Day[], key: string) => {
+    let index = 0;
+    return weatherData.flatMap((day: Day) => day.hours.map((hour: Hour) => ({
         time: hour.datetime.slice(0, -3),
         value: hour[key],
-        index: startIndex + index,
-    }));
-};
-
-const getWeatherDataForDate = (weatherData: City | null, date: string) => {
-    return weatherData?.days.find((day: Day) => day.datetime === date);
+        index: index++,
+    })));
 };
 
 const getThreeDayWeather = (weatherData: City, date: string) => {
@@ -34,7 +31,7 @@ const getThreeDayWeather = (weatherData: City, date: string) => {
         const todayWeather = weatherData?.days[todayIndex];
         const secondDayWeather = weatherData?.days[todayIndex + 1];
         const thirdDayWeather = weatherData?.days[todayIndex + 2];
-        return {...todayWeather, ...secondDayWeather, ...thirdDayWeather};
+        return [todayWeather, secondDayWeather, thirdDayWeather];
     }
 };
 
@@ -43,11 +40,10 @@ const ThreeDaysScreen= () => {
     const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
     const {forecastData, todayDate} = ForecastDataStore;
     const navigate = useNavigate();
-
     let threeDayWeather;
 
     if (!forecastData) {
-        navigate(`/error`, { state: { additionalData: " сегодня, завтра и послезавтра", errorType: "dateDataIsNotFound" } });
+        navigate(`/error`, { state: { additionalData: " за все время", errorType: "dateDataIsNotFound" } });
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return null;
     } else {
@@ -59,46 +55,14 @@ const ThreeDaysScreen= () => {
         }
     }
 
-    console.log(generateChartData(threeDayWeather, 'temp', 0));
-
-    const todayWeather = getWeatherDataForDate(forecastData, todayDate);
-    const secondDayWeather = getWeatherDataForDate(forecastData, getNextDate(todayDate, 1));
-    const thirdDayWeather = getWeatherDataForDate(forecastData, getNextDate(todayDate, 2));
-
     const dates = [todayDate, getNextDate(todayDate, 1), getNextDate(todayDate, 2)];
 
-    if (!todayWeather || !secondDayWeather || !thirdDayWeather) {
-        navigate(`/error`, { state: { additionalData: " сегодня, завтра и послезавтра", errorType: "dateDataIsNotFound" } });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return null;
-    }
-
     const chartData = {
-        temperature: [
-        ...generateChartData(todayWeather, 'temp', 0),
-        ...generateChartData(secondDayWeather, 'temp', todayWeather.hours.length),
-        ...generateChartData(thirdDayWeather, 'temp', todayWeather.hours.length + secondDayWeather.hours.length)
-        ],
-        wind: [
-        ...generateChartData(todayWeather, 'windspeed', 0),
-        ...generateChartData(secondDayWeather, 'windspeed', todayWeather.hours.length),
-        ...generateChartData(thirdDayWeather, 'windspeed', todayWeather.hours.length + secondDayWeather.hours.length)
-        ],
-        humidity: [
-        ...generateChartData(todayWeather, 'humidity', 0),
-        ...generateChartData(secondDayWeather, 'humidity', todayWeather.hours.length),
-        ...generateChartData(thirdDayWeather, 'humidity', todayWeather.hours.length + secondDayWeather.hours.length)
-        ],
-        pressure: [
-        ...generateChartData(todayWeather, 'pressure', 0),
-        ...generateChartData(secondDayWeather, 'pressure', todayWeather.hours.length),
-        ...generateChartData(thirdDayWeather, 'pressure', todayWeather.hours.length + secondDayWeather.hours.length)
-        ],
-        precip: [
-        ...generateChartData(todayWeather, 'precip', 0),
-        ...generateChartData(secondDayWeather, 'precip', todayWeather.hours.length),
-        ...generateChartData(thirdDayWeather, 'precip', todayWeather.hours.length + secondDayWeather.hours.length)
-        ]
+        temperature: generateThreeDayChartData(threeDayWeather, 'temp'),
+        wind: generateThreeDayChartData(threeDayWeather, 'windspeed'),
+        humidity: generateThreeDayChartData(threeDayWeather, 'humidity'),
+        pressure: generateThreeDayChartData(threeDayWeather, 'pressure'),
+        precip: generateThreeDayChartData(threeDayWeather, 'precip')
     };
 
     const chips = [

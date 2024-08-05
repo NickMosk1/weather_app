@@ -24,7 +24,7 @@ const getLastForecastRecords = (recordShown: number) => {
 const HomePageInfoContainer = () => {
     
     const {darkMode} = useContext(ThemeContext);
-    const [lastForecastRecords, setLastForecastRecords] = useState<string[]>(getLastForecastRecords(4)); //вот тут число кнопок регулируем
+    const [lastForecastRecords, setLastForecastRecords] = useState<string[]>(getLastForecastRecords(4)); 
     const navigate = useNavigate();
     
     const redirectToForecast = useCallback((itemData: string) => {
@@ -32,10 +32,10 @@ const HomePageInfoContainer = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }, [navigate]); 
 
-    const deleteLastForecastRecords = () => {
+    const deleteLastForecastRecords = useCallback(() => {
         localStorage.removeItem("prevForecastInputs"); 
         setLastForecastRecords([]);
-    }
+    }, []);
 
     const preferenceDataArray: preferenceData[] = [
         {text: "Точные данные", image: data}, 

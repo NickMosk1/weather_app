@@ -14,7 +14,7 @@ const SingleDayScreen = observer(() => {
     const {journalData} = JournalDataStore;
     const [selectedOption, setSelectedOption] = useState<string>('temperature');
     
-    const todayWeather = journalData? journalData.days.find(day => day.datetime === choosenDate) : null;
+    const todayWeather = journalData?.days.find(day => day.datetime === choosenDate);
 
     if (!todayWeather) {
         return(

@@ -28,11 +28,11 @@ interface WeatherChartsContainerProps {
 const getChartComponent = (chartType: 'line' | 'bar'): React.ElementType => {
     switch (chartType) {
         case 'line':
-        return CustomLineChart;
+            return CustomLineChart;
         case 'bar':
-        return CustomBarChart;
+            return CustomBarChart;
         default:
-        throw new Error('Unknown chart type');
+            throw new Error('Unknown chart type');
     }
 };
 

@@ -3,6 +3,7 @@ import City from '../../../../../../types/City';
 import WeatherChartsContainer from '../../../../../../components/other/WeatherChartsContainer/WeatherChartsContainer';
 import Day from '../../../../../../types/Day';
 import ForecastDataStore from '../../../../../../stores/ForecastDataStore/ForecastDataStore';
+import { useNavigate } from 'react-router-dom';
 
 type ChartType = 'line' | 'bar';
 
@@ -22,8 +23,13 @@ const WeekScreen = () => {
     
     const [selectedOption, setSelectedOption] = useState<string>('temperature'); 
     const {forecastData, todayDate} = ForecastDataStore;
+    const navigate = useNavigate();
 
-    if(!forecastData) {return (<>Ошибка в поиске данных</>)};
+    if(!forecastData){
+        navigate(`/error`, { state: { additionalData: " все время", errorType: "dateDataIsNotFound" } });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return null;
+    }
 
     const chartData = {
         temperature: generateChartData(forecastData, 'temp', todayDate),

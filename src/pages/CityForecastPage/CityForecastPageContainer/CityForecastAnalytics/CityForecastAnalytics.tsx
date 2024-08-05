@@ -8,7 +8,6 @@ import MyChipBar from '../../../../components/other/MyChipBar/MyChipBar';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import ForecastDataStore from '../../../../stores/ForecastDataStore/ForecastDataStore';
-import CityRoutingContainer from '../../../../components/routingContainers/CityRoutingContainer/CityRoutingContainer';
 import styled from '@emotion/styled';
 
 interface ChipData {
@@ -28,7 +27,7 @@ const CityForecastAnalytics = observer(() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             navigate(`/cityJournal`, { state: { cityName } } );
         }
-    }, [selectedOption]);
+    }, [selectedOption, navigate, cityName]);
 
     const chips: ChipData[] = [
         { label: 'Сегодня', value: 'today' },
@@ -39,18 +38,13 @@ const CityForecastAnalytics = observer(() => {
     ];
 
     return (
-        <>
-            <StyledPaper>
-                <MyChipBar selectedOption={selectedOption} setSelectedOption={setSelectedOption} chips={chips} />
-                <>
-                    {selectedOption === 'today' && <TodayScreen/>}
-                    {selectedOption === 'threeDays' && <ThreeDaysScreen />}
-                    {selectedOption === 'week' && <WeekScreen/>}
-                    {selectedOption === 'twoWeek' && <TwoWeeksScreen/>}
-                </>
-            </StyledPaper>
-            <CityRoutingContainer/>
-        </>
+        <StyledPaper>
+            <MyChipBar selectedOption={selectedOption} setSelectedOption={setSelectedOption} chips={chips} />
+            {selectedOption === 'today' && <TodayScreen/>}
+            {selectedOption === 'threeDays' && <ThreeDaysScreen />}
+            {selectedOption === 'week' && <WeekScreen/>}
+            {selectedOption === 'twoWeek' && <TwoWeeksScreen/>}
+        </StyledPaper>
     );
 });
 

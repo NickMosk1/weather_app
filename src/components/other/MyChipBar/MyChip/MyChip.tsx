@@ -21,7 +21,7 @@ const MyChip: React.FC<MyChipProps> = ({label, selected, clickable, onClick}) =>
 
 export default MyChip;
 
-const MyChipStyled = styled(Chip)<{ darkMode: boolean, selected: boolean, label: string, clickable: boolean, onClick: () => void}>`
+const MyChipStyled = styled(Chip)<{ darkMode: boolean, selected: boolean}>`
     background-color: ${(props) => (props.darkMode ? (props.selected ? "#007bff" : "#333") : (props.selected ? "#007bff" : "#fff"))};
     color: ${(props) => (props.darkMode ? (props.selected ? "#dddddd" : "#dddddd") : (props.selected ? "#fff" : "#333"))};
     font-weight: 100;
